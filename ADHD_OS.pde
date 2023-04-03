@@ -29,7 +29,7 @@ void settings(){
   }
 }
 
-Window test;
+
 
 void setup(){
   frameRate(60);
@@ -57,9 +57,68 @@ void setup(){
     println(iconColums[i]);
   }
   
+  //row a
+  a1=new Button(this,iconColums[0],iconRows[0],iconSize,iconSize);
+  a2=new Button(this,iconColums[1],iconRows[0],iconSize,iconSize);
+  a3=new Button(this,iconColums[2],iconRows[0],iconSize,iconSize);
+  a4=new Button(this,iconColums[3],iconRows[0],iconSize,iconSize);
+  a5=new Button(this,iconColums[4],iconRows[0],iconSize,iconSize);
+  a6=new Button(this,iconColums[5],iconRows[0],iconSize,iconSize);
+  a7=new Button(this,iconColums[6],iconRows[0],iconSize,iconSize);
   
+  //row b
+  b1=new Button(this,iconColums[0],iconRows[1],iconSize,iconSize);
+  b2=new Button(this,iconColums[1],iconRows[1],iconSize,iconSize);
+  b3=new Button(this,iconColums[2],iconRows[1],iconSize,iconSize);
+  b4=new Button(this,iconColums[3],iconRows[1],iconSize,iconSize);
+  b5=new Button(this,iconColums[4],iconRows[1],iconSize,iconSize);
+  b6=new Button(this,iconColums[5],iconRows[1],iconSize,iconSize);
+  b7=new Button(this,iconColums[6],iconRows[1],iconSize,iconSize);
   
+  //row c
+  c1=new Button(this,iconColums[0],iconRows[2],iconSize,iconSize);
+  c2=new Button(this,iconColums[1],iconRows[2],iconSize,iconSize);
+  c3=new Button(this,iconColums[2],iconRows[2],iconSize,iconSize);
+  c4=new Button(this,iconColums[3],iconRows[2],iconSize,iconSize);
+  c5=new Button(this,iconColums[4],iconRows[2],iconSize,iconSize);
+  c6=new Button(this,iconColums[5],iconRows[2],iconSize,iconSize);
+  c7=new Button(this,iconColums[6],iconRows[2],iconSize,iconSize);
   
+  //row d
+  d1=new Button(this,iconColums[0],iconRows[3],iconSize,iconSize);
+  d2=new Button(this,iconColums[1],iconRows[3],iconSize,iconSize);
+  d3=new Button(this,iconColums[2],iconRows[3],iconSize,iconSize);
+  d4=new Button(this,iconColums[3],iconRows[3],iconSize,iconSize);
+  d5=new Button(this,iconColums[4],iconRows[3],iconSize,iconSize);
+  d6=new Button(this,iconColums[5],iconRows[3],iconSize,iconSize);
+  d7=new Button(this,iconColums[6],iconRows[3],iconSize,iconSize);
+  
+  //row e
+  e1=new Button(this,iconColums[0],iconRows[4],iconSize,iconSize);
+  e2=new Button(this,iconColums[1],iconRows[4],iconSize,iconSize);
+  e3=new Button(this,iconColums[2],iconRows[4],iconSize,iconSize);
+  e4=new Button(this,iconColums[3],iconRows[4],iconSize,iconSize);
+  e5=new Button(this,iconColums[4],iconRows[4],iconSize,iconSize);
+  e6=new Button(this,iconColums[5],iconRows[4],iconSize,iconSize);
+  e7=new Button(this,iconColums[6],iconRows[4],iconSize,iconSize);
+  
+  //row f
+  f1=new Button(this,iconColums[0],iconRows[5],iconSize,iconSize);
+  f2=new Button(this,iconColums[1],iconRows[5],iconSize,iconSize);
+  f3=new Button(this,iconColums[2],iconRows[5],iconSize,iconSize);
+  f4=new Button(this,iconColums[3],iconRows[5],iconSize,iconSize);
+  f5=new Button(this,iconColums[4],iconRows[5],iconSize,iconSize);
+  f6=new Button(this,iconColums[5],iconRows[5],iconSize,iconSize);
+  f7=new Button(this,iconColums[6],iconRows[5],iconSize,iconSize);
+  
+  //row g
+  g1=new Button(this,iconColums[0],iconRows[6],iconSize,iconSize);
+  g2=new Button(this,iconColums[1],iconRows[6],iconSize,iconSize);
+  g3=new Button(this,iconColums[2],iconRows[6],iconSize,iconSize);
+  g4=new Button(this,iconColums[3],iconRows[6],iconSize,iconSize);
+  g5=new Button(this,iconColums[4],iconRows[6],iconSize,iconSize);
+  g6=new Button(this,iconColums[5],iconRows[6],iconSize,iconSize);
+  g7=new Button(this,iconColums[6],iconRows[6],iconSize,iconSize);
   
   
   
