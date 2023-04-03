@@ -47,8 +47,8 @@ char getCh(int mode, char leter) {
     }
     String allowed="`~!@#$%^&*()_+-=[]{}\\|;:'\",./<>?1234567890\n\t";
     for(int i=0;i<allowed.length();i++){
-      if(letter==allowed.charAt(i))
-      return letter
+      if(leter==allowed.charAt(i))
+      return leter;
     }
   }
 
