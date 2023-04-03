@@ -29,7 +29,7 @@ void settings(){
   }
 }
 
-
+Window test;
 
 void setup(){
   frameRate(60);
@@ -40,6 +40,7 @@ void setup(){
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
   
+
   iconRows   = new int[7];
   iconColums = new int[14];
   
@@ -63,6 +64,7 @@ void setup(){
   
   
   
+
   desktopImage=loadImage("ADHDOS_desktop_rev1.png");
   desktopImage.resize(width,height);
 }
@@ -73,7 +75,7 @@ void draw(){
   if(desktop)
   {
     background(desktopImage);
-    
+    test.draw();
     
     image(ico0,50,50);
   }
@@ -85,7 +87,7 @@ void draw(){
 
 
 void mouseClicked(){
-  
+  test.mouseClicked();
   
   
   
