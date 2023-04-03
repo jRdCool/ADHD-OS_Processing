@@ -24,7 +24,6 @@ void settings(){
   }
 }
 
-Window test;
 
 void setup(){
   frameRate(60);
@@ -37,7 +36,7 @@ void setup(){
   
   desktopImage=loadImage("ADHDOS_desktop_rev1.png");
   desktopImage.resize(width,height);
-  test = new Window(this,50,87,600,900,"test");
+
 }
 
 
@@ -46,7 +45,6 @@ void draw(){
   if(desktop)
   {
     background(desktopImage);
-    test.draw();
     
     image(ico0,50,50);
   }
@@ -58,7 +56,7 @@ void draw(){
 
 
 void mouseClicked(){
-  test.mouseClicked();
+
   
   
   
@@ -71,6 +69,14 @@ void keyPressed(){
     
     
     
+}
+
+void mousePressed(){
+
+}
+
+void mouseReleased(){
+
 }
 
 

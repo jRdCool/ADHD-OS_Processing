@@ -4,8 +4,8 @@ class Window{
   public boolean isFocused,isMinimized,mousePressedInWindow,movingWindow;
   public String title;
   public PImage icon;
-  int mousePressedX,mousePressedY,moveOffsetX,moveOffsetY;
-  Button titleBar;
+  int mousePressedX,mousePressedY,moveOffsetX,moveOffsetY,PID,funness;
+  Button titleBar,minimiseButton,closeButton;
   PApplet parent;
   
   public Window(PApplet parent,float x,float y,float length,float height,String title){
@@ -16,6 +16,8 @@ class Window{
     this.title=title;
     titleBar=new Button(parent,x+1,y+1,length-2,18,title,240,240).setStrokeWeight(0);
     this.parent=parent;
+    closeButton=new Button(parent,x+length-22,y+1,22,18,"X",#FF0000,240).setStrokeWeight(0).setTextColor(255);
+    minimiseButton=new Button(parent,x+length-closeButton.lengthX-22,y+1,22,18,"-",230,220).setStrokeWeight(0);
   }
   
   final void draw(){
@@ -30,9 +32,18 @@ class Window{
       rect(x,y,length,height);
       titleBar.draw();
       
+      
+      
       clip(x,y,length,height);//prevent drawing outside of the window area
       drawWindow();//draw Contence of the window
       noClip();
+      
+      closeButton.draw();
+      minimiseButton.draw();
+      
+      if(movingWindow){
+        processRelocateWindow();
+      }
     }
   }
   
@@ -43,6 +54,15 @@ class Window{
     if(!isMinimized){
       if(mouseX >= x && mouseX <= x + length && mouseY >= y && mouseY <= y + height){//if clicked within the window
         isFocused=true;
+        if(closeButton.isMouseOver()){
+          closeButtonPressed();
+        }
+        if(minimiseButton.isMouseOver()){
+          isMinimized=true;
+          isFocused=false;
+          return true;
+        }
+        
         mouseClickedInWindow((int)x-mouseX,(int)y-mouseY);
         return true;
       }else{
@@ -85,16 +105,42 @@ class Window{
     return false;
   }
   
-  void mousePressedWindow(int x,int y){}
+  void mousePressedWindow(int x,int y){}//this method is implmented by sub classes
   
   final void mouseReleased(){
     if(mousePressedInWindow){
       if(movingWindow){
-        int xdif=mouseX-mousePressedX,ydif=mouseY-mousePressedY;
-        x=mousePressedX-moveOffsetX;
+        processRelocateWindow();
+        movingWindow=false;
       }
+      mouseReleasedWindow((int)x-mouseX,(int)y-mouseY);
+      mousePressedInWindow=false;
     }
   }
+  
+  void mouseReleasedWindow(int x,int y){}//this method is implmented by sub classes
+  
+  //moves the window and button on the top of the window when the window is in the proscess of moving
+  private void processRelocateWindow(){
+    int xdif=mouseX-mousePressedX,ydif=mouseY-mousePressedY;
+    x=(mousePressedX+xdif)+moveOffsetX;
+    y=(mousePressedY+ydif)+moveOffsetY;
+    titleBar.x=x+1;
+    titleBar.y=y+1;
+    closeButton.x=x+length-22;
+    closeButton.y=y+1;
+    minimiseButton.x=x+length-closeButton.lengthX-22;
+    minimiseButton.y=y+1;
+  }
+  
+  private void closeButtonPressed(){
+    onCloseAction();
+    //remove window from window list
+  }
+  //called when the close window button is pressed
+  void onCloseAction(){}//this method is implmented by sub classes
+  
+  void tick(){};//this method is implmented by sub classes
   
   
 }
