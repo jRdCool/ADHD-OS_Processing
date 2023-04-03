@@ -1,12 +1,15 @@
 int ADHDMode = -1,timerMin,timerSec;
-boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false;
+boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true;
 PImage desktopImage,ico0,ico1,ico2;
+PImage[] icons;
 
-
-int iconSize = 50;
-int iconSpaceing=iconSize+10;
+int iconSize = 75;
+int iconSpaceing=iconSize+20;
 
 int[] iconRows,iconColums;
+int[][] icoIDstorage;
+
+ArrayList<Integer> taskbar=new ArrayList<>();
 
 
 Button a1,a2,a3,a4,a5,a6,a7;
@@ -38,9 +41,16 @@ void setup(){
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
   
+  icons = new PImage[3];
+  
+  icons[0]=ico0;
+  icons[1]=ico1;
+  icons[2]=ico2;
+  
+  icoIDstorage = new int[7][7];
 
   iconRows   = new int[7];
-  iconColums = new int[14];
+  iconColums = new int[7];
   
   iconRows[0]=50;
   for(int i=1; i<iconRows.length; i++)
@@ -133,17 +143,24 @@ void draw(){
   {
     background(desktopImage);
     
-    image(ico0,50,50);
+    
+    //image(ico0,50,50);
+    for(int i=0;i<iconRows.length; i++)
+    {
+      for(int j=0; j<iconColums.length; j++)
+      {
+        if(initilizing){icoIDstorage[j][i]=(int)random(0,3);}
+        image(icons[icoIDstorage[j][i]],iconColums[j],iconRows[i]);
+      }
+    }
+  
   }
-  
-  
-  
+  initilizing=false;
 }
 
 
 
 void mouseClicked(){
-
   
   
   
