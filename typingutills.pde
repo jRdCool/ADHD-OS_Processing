@@ -45,7 +45,7 @@ char getCh(int mode, char leter) {
     if (Character.isLetter(leter)) {
       return leter;
     }
-    String allowed="`~!@#$%^&*()_+-=[]{}\\|;:'\",./<>?1234567890\n\t";
+    String allowed="`~!@#$%^&*()_+-=[]{}\\|;:'\",./<>?1234567890\n\t ";
     for(int i=0;i<allowed.length();i++){
       if(leter==allowed.charAt(i))
       return leter;
@@ -57,7 +57,7 @@ char getCh(int mode, char leter) {
 
 String processKeyboardInput(String in,char letter,int code,int restrictLVL,CursorPos cursorPos){
   if(cursorPos.pos==-1){
-    cursorPos.pos=in.length()-1;
+    cursorPos.pos=in.length();
     if(cursorPos.pos<0){
       cursorPos.pos=0;
     }
@@ -71,6 +71,7 @@ String processKeyboardInput(String in,char letter,int code,int restrictLVL,Curso
         }else{
           out=in.substring(0,cursorPos.pos-1) + in.substring(cursorPos.pos,in.length());
         }
+        cursorPos.pos--;
       }
     }else if(code==LEFT){
       if(cursorPos.pos!=0)
@@ -81,11 +82,19 @@ String processKeyboardInput(String in,char letter,int code,int restrictLVL,Curso
     }
   }else{
     if(cursorPos.pos==in.length()){
-      out=in+letter;
+      if(letter=='\t')
+        out=in+"    ";
+      else
+        out=in+letter;
     }else{
-      out=in.substring(0,cursorPos.pos) + letter + in.substring(cursorPos.pos,in.length());
+      if(letter=='\t')
+        out=in.substring(0,cursorPos.pos) + "    " + in.substring(cursorPos.pos,in.length());
+      else
+        out=in.substring(0,cursorPos.pos) + letter + in.substring(cursorPos.pos,in.length());
     }
     cursorPos.pos++;
+    if(letter=='\t')
+      cursorPos.pos+=3;
   }
   return out;
 }

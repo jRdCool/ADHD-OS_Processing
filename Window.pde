@@ -76,7 +76,7 @@ class Window{
   void mouseClickedInWindow(int x,int y){}//this method is implmented by sub classes to process mouse clicked that happen within the window
   
   final void keyPressed(){
-    if(!isMinimized && !isFocused){
+    if(!isMinimized && isFocused){
       keyPressedWindow(key,keyCode);
     }
   }
