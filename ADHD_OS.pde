@@ -1,4 +1,4 @@
-int ADHDMode = 0,timerMin=5,timerSec,frame=0;
+int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=true;
 PImage desktopImage,ico0,ico1,ico2;
 PImage[] icons;
@@ -168,7 +168,7 @@ void draw(){
     }
     if(timerSec%5==0)
     {
-      stateCheck(0);
+      stateCheck(5);
     }
   }
   
@@ -214,47 +214,36 @@ test.mouseReleased();
 
 void stateCheck(int processType){
   //Focused
-  if(processType==10)
+  int chance=0;
+  switch (processType)
+    {
+      case 1: 
+        chance+=10;
+      case 2: 
+        chance+=10;
+      case 3: 
+        chance+=10;
+      case 4: 
+        chance+=10;
+      case 5: 
+        chance+=10;
+      case 6: 
+        chance+=10;
+      case 7: 
+        chance+=10;
+      case 8: 
+        chance+=10;
+      case 9: 
+        chance+=10;
+      case 10:
+    }
+  println(chance);
+  int randomNumber=(int)random(1,101);
+  println(randomNumber);
+  if(randomNumber<chance)
   {
-    
+    println("pop up spawned");
   }
-  else if(processType==9)
-  {
-    
-  }
-  else if(processType==8)
-  {
-    
-  }
-  else if(processType==7)
-  {
-    
-  }
-  else if(processType==6)
-  {
-    
-  }
-  else if(processType==5)
-  {
-    
-  }
-  else if(processType==4)
-  {
-    
-  }
-  else if(processType==3)
-  {
-    
-  }
-  else if(processType==2)
-  {
-    
-  }
-  else
-  {
-    
-  }
-  
   
   //time track
   int timeTrackTest=(int)random(0,2);
