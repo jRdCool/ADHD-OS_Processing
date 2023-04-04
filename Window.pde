@@ -63,7 +63,7 @@ class Window{
           return true;
         }
         
-        mouseClickedInWindow((int)x-mouseX,(int)y-mouseY);
+        mouseClickedInWindow(mouseX-(int)x,mouseY-(int)y);
         return true;
       }else{
         isFocused=false;
@@ -76,7 +76,7 @@ class Window{
   void mouseClickedInWindow(int x,int y){}//this method is implmented by sub classes to process mouse clicked that happen within the window
   
   final void keyPressed(){
-    if(!isMinimized && !isFocused){
+    if(!isMinimized && isFocused){
       keyPressedWindow(key,keyCode);
     }
   }
@@ -96,7 +96,7 @@ class Window{
           movingWindow=true;
         }
         //title bar click things here
-        mousePressedWindow((int)x-mouseX,(int)y-mouseY);
+        mousePressedWindow(mouseX-(int)x,mouseY-(int)y);
         return true;
       }else{
         isFocused=false;
@@ -113,7 +113,7 @@ class Window{
         processRelocateWindow();
         movingWindow=false;
       }
-      mouseReleasedWindow((int)x-mouseX,(int)y-mouseY);
+      mouseReleasedWindow(mouseX-(int)x,mouseY-(int)y);
       mousePressedInWindow=false;
     }
   }

@@ -12,7 +12,7 @@ int[][] icoIDstorage;
 
 ArrayList<Integer> taskbar=new ArrayList<>();
 
-
+Window test;
 Button[][] desktopIcons=new Button[7][7];
 
 
@@ -66,7 +66,7 @@ void setup(){
     }
   }
   
-
+test = new TextEditor(this);
   desktopImage=loadImage("ADHDOS_desktop_rev1.png");
   desktopImage.resize(width,height);
 }
@@ -146,6 +146,7 @@ void draw(){
   
   
   initilizing=false;
+
   //text(frame,960,540);
   //text(frame%60,960,590);
   if(frame%60==0&&counterStarted)
@@ -172,12 +173,15 @@ void draw(){
   }
   
   
+
+  test.draw();
+
 }
 
 
 
 void mouseClicked(){
-  
+  test.mouseClicked();
   
   for(int i=0;i<desktopIcons.length;i++)
   {
@@ -194,16 +198,16 @@ void mouseClicked(){
   
 void keyPressed(){
     
-    
+    test.keyPressed();
     
 }
 
 void mousePressed(){
-
+test.mousePressed();
 }
 
 void mouseReleased(){
-
+test.mouseReleased();
 }
 
 
