@@ -1,7 +1,8 @@
-int ADHDMode = -1,timerMin,timerSec;
-boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true;
+int ADHDMode = 0,timerMin=5,timerSec,frame=0;
+boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=true;
 PImage desktopImage,ico0,ico1,ico2;
 PImage[] icons;
+String timerDisplay;
 
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
@@ -50,13 +51,13 @@ void setup(){
   for(int i=1; i<iconRows.length; i++)
   {
     iconRows[i]=(iconRows[i-1]+iconSpaceing);
-    println(iconRows[i]);
+    //println(iconRows[i]);
   }
   iconColums[0]=50;
   for(int i=1; i<iconColums.length; i++)
   {
     iconColums[i]=(iconColums[i-1]+iconSpaceing);
-    println(iconColums[i]);
+    //println(iconColums[i]);
   }
   
   for(int i=0;i<desktopIcons.length;i++){
@@ -71,11 +72,64 @@ void setup(){
 }
 
 
-
 void draw(){
+  frame++;
+  if(credits)
+  {
+    background(#AAAAAA);
+    
+    fill(0);
+    textSize(75);
+    textAlign(CENTER,CENTER);
+    text("Developers:",960,50);
+    text("Textures:",960,250);
+    text("concept by:",960,450);
+    
+    textSize(50);
+    text("Joseph Duffy",960,130);
+    text("Stephen Duffy",960,180);
+    text("Joseph Duffy",960,330);
+    text("Kat B.",960,380);
+    text("Kat B.",960,530);
+   
+  }
+  
+  
+  
   if(desktop)
   {
     background(desktopImage);
+    
+    if(timeAware)
+    {
+      if(timerMin!=0)
+      {
+        if(timerSec>=10)
+          timerDisplay=timerMin+":"+timerSec;
+        else
+          timerDisplay=timerMin+":0"+timerSec;
+        
+      }
+      else
+        timerDisplay=""+timerSec;
+    }
+    else
+    {
+      int randomMin=(int)random(5,200)+timerMin;
+      int randomSec=(int)random(60,134)+timerSec;
+      timerDisplay=randomMin+":"+randomSec;
+    }
+    
+    
+    
+    fill(255);
+    stroke(255);
+    rect(1600,0,320,350);
+    stroke(0);
+    fill(0);
+    textSize(30);
+    textAlign(BOTTOM,CENTER);
+    text(timerDisplay,1760,20);
     
     
     //image(ico0,50,50);
@@ -86,10 +140,38 @@ void draw(){
         if(initilizing){icoIDstorage[j][i]=(int)random(0,3);}
         image(icons[icoIDstorage[j][i]],iconColums[j],iconRows[i]);
       }
-    }
-  
+    } 
   }
+  
+  
+  
   initilizing=false;
+  //text(frame,960,540);
+  //text(frame%60,960,590);
+  if(frame%60==0&&counterStarted)
+  {
+    if(timerMin==0&&timerSec==0)
+    {
+      credits=true;
+      desktop=false;
+      counterStarted=false;
+    }
+    else
+    {
+      timerSec--;
+      if(timerSec==-1)
+      {
+        timerSec=59;
+        timerMin-=1;
+      }
+    }
+    if(timerSec%5==0)
+    {
+      stateCheck(0);
+    }
+  }
+  
+  
 }
 
 
@@ -97,13 +179,20 @@ void draw(){
 void mouseClicked(){
   
   
-  
+  for(int i=0;i<desktopIcons.length;i++)
+  {
+    for(int j=0;j<desktopIcons[i].length;j++)
+    {
+      if(desktopIcons[i][j].isMouseOver())
+      {
+        
+      }
+    }
+  }
 }
   
   
 void keyPressed(){
-    
-    
     
     
     
@@ -119,10 +208,65 @@ void mouseReleased(){
 
 
 
-int stateCheck(int processType){
-  int state=-1;
+void stateCheck(int processType){
+  //Focused
+  if(processType==10)
+  {
+    
+  }
+  else if(processType==9)
+  {
+    
+  }
+  else if(processType==8)
+  {
+    
+  }
+  else if(processType==7)
+  {
+    
+  }
+  else if(processType==6)
+  {
+    
+  }
+  else if(processType==5)
+  {
+    
+  }
+  else if(processType==4)
+  {
+    
+  }
+  else if(processType==3)
+  {
+    
+  }
+  else if(processType==2)
+  {
+    
+  }
+  else
+  {
+    
+  }
+  
+  
+  //time track
+  int timeTrackTest=(int)random(0,2);
+  //println(timeTrackTest);
+  if(timeTrackTest==1)
+  {
+    if(timerMin!=0)
+      timeAware=false;
+    else
+      timeAware=true;
+  }
+  else
+    timeAware=true;
+  
+  //overdrive
   
   
   
-  return state;
 }
