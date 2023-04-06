@@ -7,14 +7,17 @@ String timerDisplay;
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
 
-int[] iconRows,iconColums;
+int[] iconRows,iconColums,taskbarSlots;
 int[][] icoIDstorage;
+
+int taskbarVPos=1005,numTaskbarSlots=10;
 
 ArrayList<Integer> taskbar=new ArrayList<>();
 
-Window test;
+Window test,failedToLoad;
 Window[] popups=new Window[9];
 Button[][] desktopIcons=new Button[7][7];
+Button[] taskbarButtons=new Button[numTaskbarSlots];
 
 
 void settings(){
@@ -36,6 +39,8 @@ void setup(){
   ico1.resize(iconSize,iconSize);
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
+  
+  taskbarSlots=new int[numTaskbarSlots];
   
   icons = new PImage[3];
   
@@ -66,6 +71,12 @@ void setup(){
     for(int j=0;j<desktopIcons[i].length;j++){
       desktopIcons[i][j]=new Button(this,iconColums[i],iconRows[j],iconSize,iconSize);
     }
+  }
+  
+  taskbarSlots[0]=300;
+  for(int i=1;i<10;i++)
+  {
+    taskbarSlots[i]=taskbarSlots[i-1]+iconSpaceing;
   }
   
 test = new TextEditor(this);
@@ -124,7 +135,7 @@ void draw(){
     }
     
     
-    
+    //---------Todo list---------//
     fill(255);
     stroke(255);
     rect(1600,0,320,350);
@@ -133,6 +144,15 @@ void draw(){
     textSize(30);
     textAlign(BOTTOM,CENTER);
     text(timerDisplay,1760,20);
+    
+    //---------Taskbar---------//
+    fill(0);
+    stroke(0);
+    rect(300,1000,1320,80);
+    circle(300,1005,10);
+    rect(295,1005,5,75);
+    circle(1620,1005,10);
+    rect(1620,1005,5,75);
     
     
     //image(ico0,50,50);
@@ -182,7 +202,7 @@ void draw(){
 }
 
 
-
+//====================================================Mouse Clicked====================================================//
 void mouseClicked(){
   test.mouseClicked();
   
@@ -198,17 +218,19 @@ void mouseClicked(){
   }
 }
   
-  
+//====================================================Key Perssed====================================================//
 void keyPressed(){
     
     test.keyPressed();
     
 }
 
+//====================================================Mouse Pressed====================================================//
 void mousePressed(){
 test.mousePressed();
 }
 
+//====================================================Mouse Released====================================================//
 void mouseReleased(){
 test.mouseReleased();
 }
@@ -262,7 +284,5 @@ void stateCheck(int processType){//1=boring,10=fun
     timeAware=true;
   
   //overdrive
-  
-  
   
 }

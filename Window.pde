@@ -4,11 +4,13 @@ class Window{
   public boolean isFocused,isMinimized,mousePressedInWindow,movingWindow;
   public String title;
   public PImage icon;
-  int mousePressedX,mousePressedY,moveOffsetX,moveOffsetY,PID,funness;
+  public int PID;
+  public int funScale;
+  int mousePressedX,mousePressedY,moveOffsetX,moveOffsetY,funness;
   Button titleBar,minimiseButton,closeButton;
   PApplet parent;
   
-  public Window(PApplet parent,float x,float y,float length,float height,String title){
+  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID){
     this.x=x;
     this.y=y;
     this.length=length;
@@ -18,6 +20,7 @@ class Window{
     this.parent=parent;
     closeButton=new Button(parent,x+length-22,y+1,22,18,"X",#FF0000,240).setStrokeWeight(0).setTextColor(255);
     minimiseButton=new Button(parent,x+length-closeButton.lengthX-22,y+1,22,18,"-",230,220).setStrokeWeight(0);
+    this.PID=processID;
   }
   
   final void draw(){
@@ -142,5 +145,8 @@ class Window{
   
   void tick(){};//this method is implmented by sub classes
   
+  int processID(){
+    return PID;
+  }
   
 }
