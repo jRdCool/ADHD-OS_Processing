@@ -13,11 +13,12 @@ int[][] icoIDstorage;
 ArrayList<Integer> taskbar=new ArrayList<>();
 
 Window test;
+Window[] popups=new Window[9];
 Button[][] desktopIcons=new Button[7][7];
 
 
 void settings(){
-  if((displayHeight==1080) && (displayWidth==1920))
+  if((displayHeight<=1080) && (displayWidth<=1920))
   {
     fullScreen();
   }
@@ -47,6 +48,7 @@ void setup(){
   iconRows   = new int[7];
   iconColums = new int[7];
   
+  //-------------setting icon locations-------------//
   iconRows[0]=50;
   for(int i=1; i<iconRows.length; i++)
   {
@@ -71,9 +73,10 @@ test = new TextEditor(this);
   desktopImage.resize(width,height);
 }
 
-
+//==========================================Draw==========================================//
 void draw(){
   frame++;
+  //----------------------------Credits----------------------------//
   if(credits)
   {
     background(#AAAAAA);
@@ -95,7 +98,7 @@ void draw(){
   }
   
   
-  
+  //----------------------------Desktop----------------------------//
   if(desktop)
   {
     background(desktopImage);
@@ -146,7 +149,7 @@ void draw(){
   
   
   initilizing=false;
-
+//-------------------------frame calculations
   //text(frame,960,540);
   //text(frame%60,960,590);
   if(frame%60==0&&counterStarted)
@@ -212,7 +215,7 @@ test.mouseReleased();
 
 
 
-void stateCheck(int processType){
+void stateCheck(int processType){//1=boring,10=fun
   //Focused
   int chance=0;
   switch (processType)
@@ -237,12 +240,12 @@ void stateCheck(int processType){
         chance+=10;
       case 10:
     }
-  println(chance);
+  //println(chance);
   int randomNumber=(int)random(1,101);
-  println(randomNumber);
+  //println(randomNumber);
   if(randomNumber<chance)
   {
-    println("pop up spawned");
+    //println("pop up spawned");
   }
   
   //time track
