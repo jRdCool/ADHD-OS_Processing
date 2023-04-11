@@ -120,9 +120,9 @@ void draw(){
       if(timerMin!=0)
       {
         if(timerSec>=10)
-          timerDisplay=timerMin+":"+timerSec;
+          timerDisplay="   "+timerMin+":"+timerSec;
         else
-          timerDisplay=timerMin+":0"+timerSec;
+          timerDisplay="   "+timerMin+":0"+timerSec;
         
       }
       else
@@ -132,7 +132,19 @@ void draw(){
     {
       int randomMin=(int)random(5,200)+timerMin;
       int randomSec=(int)random(60,134)+timerSec;
-      timerDisplay=randomMin+":"+randomSec;
+      if(randomMin>99)
+      {
+        timerDisplay=randomMin+":"+randomSec;
+      }
+      else if(randomMin>9)
+      {
+        timerDisplay=" "+randomMin+":"+randomSec; 
+      }
+      else
+      {
+        timerDisplay="  "+randomMin+":"+randomSec;
+      }
+      
     }
     
     
@@ -143,8 +155,8 @@ void draw(){
     stroke(0);
     fill(0);
     textSize(30);
-    textAlign(BOTTOM,CENTER);
-    text(timerDisplay,1760,20);
+    textAlign(CENTER,BOTTOM);
+    text(timerDisplay,1760,35);
     
     //---------Taskbar---------//
     fill(0);
