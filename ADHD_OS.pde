@@ -74,11 +74,7 @@ void setup(){
     }
   }
   
-  taskbarSlots[0]=300;
-  for(int i=1;i<10;i++)
-  {
-    taskbarSlots[i]=taskbarSlots[i-1]+iconSpaceing;
-  }
+  
   
 test = new TextEditor(this);
   desktopImage=loadImage("ADHDOS_desktop_rev1.png");
