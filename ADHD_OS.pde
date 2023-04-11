@@ -15,7 +15,8 @@ int taskbarVPos=1005,numTaskbarSlots=10;
 ArrayList<Integer> taskbar=new ArrayList<>();
 
 Window test,failedToLoad;
-Window[] popups=new Window[9];
+Window[] popups=new Popup[9];
+Window[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
 Button[] taskbarButtons=new Button[numTaskbarSlots];
 
@@ -210,7 +211,7 @@ void mouseClicked(){
   {
     for(int j=0;j<desktopIcons[i].length;j++)
     {
-      if(desktopIcons[i][j].isMouseOver())
+      if(desktopIcons[0][0].isMouseOver())
       {
         
       }
@@ -284,5 +285,8 @@ void stateCheck(int processType){//1=boring,10=fun
     timeAware=true;
   
   //overdrive
+  //gives advice that is not nessasarily useful
+  
+  
   
 }
