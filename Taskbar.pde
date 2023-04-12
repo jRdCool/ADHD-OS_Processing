@@ -88,6 +88,7 @@ class Taskbar{
         {
           iconStore[slot]=iconStore[slot+1];
           processIDS[slot]=processIDS[slot+1];
+          windows[slot]=windows[slot+1];
         }
         processIDS[numTasks-1]=-1;
         iconStore[numTasks-1]=null;
