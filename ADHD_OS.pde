@@ -42,7 +42,7 @@ void setup(){
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
   
-  taskbar=new Taskbar(numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
+  taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   
   icons = new PImage[3];
   
@@ -199,23 +199,27 @@ void draw(){
   }
   
   
-
-  test.draw();
+  if(test.isOpen)
+  {
+    test.draw();
+  }
 
 }
 
 
 //====================================================Mouse Clicked====================================================//
 void mouseClicked(){
-  test.mouseClicked();
-  
+  test.mouseClicked(taskbar);
+  taskbar.mouseClicked();
   
       
-      if(desktopIcons[0][0].isMouseOver())
-      {
-        int slot=taskbar.addProcess(icons[icoIDstorage[1][0]],test.processID());
-        println(slot);
-      }
+  if(desktopIcons[0][1].isMouseOver()&&!test.isOpen())
+  {
+    int slot=taskbar.addProcess(icons[icoIDstorage[0][1]],test.processID(),test);
+    //println(slot);
+    test.setActivity(true);
+  }
+      
       
     
 }

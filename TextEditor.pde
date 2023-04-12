@@ -86,4 +86,14 @@ class TextEditor extends Window {
       }
     }
   }
+  
+  void onCloseAction(Taskbar tb,int processID)
+  {
+    int slot=tb.slotLookUp(processID);
+    tb.removeProcess(slot,processID);
+    
+    
+  }
+  
+  
 }

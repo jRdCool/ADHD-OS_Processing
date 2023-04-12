@@ -1,7 +1,7 @@
 //super class that had all the things nessarry for windows on thye desktop
 class Window{
   public float x,y,length,height;
-  public boolean isFocused,isMinimized,mousePressedInWindow,movingWindow;
+  public boolean isFocused,isMinimized,mousePressedInWindow,movingWindow,isOpen;
   public String title;
   public PImage icon;
   public int PID;
@@ -38,7 +38,7 @@ class Window{
       
       
       clip(x,y,length,height);//prevent drawing outside of the window area
-      drawWindow();//draw Contence of the window
+      drawWindow();//draw Contents of the window
       noClip();
       
       closeButton.draw();
@@ -53,12 +53,12 @@ class Window{
   void drawWindow(){}//this method is implmented by sub classes to accualy draw the content of the windows
   
   //returns true if the click was inside the area of the window
-  final boolean mouseClicked(){
+  final boolean mouseClicked(Taskbar tb){
     if(!isMinimized){
       if(mouseX >= x && mouseX <= x + length && mouseY >= y && mouseY <= y + height){//if clicked within the window
         isFocused=true;
         if(closeButton.isMouseOver()){
-          closeButtonPressed();
+          closeButtonPressed(tb);
         }
         if(minimiseButton.isMouseOver()){
           isMinimized=true;
@@ -136,12 +136,13 @@ class Window{
     minimiseButton.y=y+1;
   }
   
-  private void closeButtonPressed(){
-    onCloseAction();
+  private void closeButtonPressed(Taskbar tb){
+    onCloseAction(tb,PID);
+    setActivity(false);
     //remove window from window list
   }
   //called when the close window button is pressed
-  void onCloseAction(){}//this method is implmented by sub classes
+  void onCloseAction(Taskbar tb,int processID){}//this method is implmented by sub classes
   
   void tick(){};//this method is implmented by sub classes
   
@@ -149,4 +150,19 @@ class Window{
     return PID;
   }
   
+  public boolean isOpen()
+  {
+    return isOpen;
+  }
+  
+  public void setActivity(boolean active)
+  {
+    isOpen=active;
+  }
+  
+  public void toggleMinimize(int processID)
+  {
+    if(processID==PID)
+    isMinimized=!isMinimized;
+  }
 }

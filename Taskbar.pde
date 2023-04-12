@@ -4,12 +4,16 @@ class Taskbar{
   private int maxIcons,numTasks=0;
   private int[] processIDS;
   public PImage iconStore[];
+  private Window[] windows;
+  private Button[] barButtons;
   
-  public Taskbar(int maxIcons,float x, float y,float iconScale){
+  public Taskbar(PApplet parent,int maxIcons,float x, float y,float iconScale){
     this.x=x;
     this.y=y;
     this.iconScale=iconScale;
     this.maxIcons=maxIcons;
+    barButtons=new Button[maxIcons];
+    windows=new Window[maxIcons];
     iconStore=new PImage[maxIcons];
     processIDS=new int[maxIcons];
     HPos = new float[maxIcons];
@@ -17,6 +21,10 @@ class Taskbar{
     for(int i=1;i<maxIcons;i++)
     {
       HPos[i]=HPos[i-1]+iconScale;
+    }
+    for(int i=0;i<maxIcons;i++)
+    {
+      barButtons[i]=new Button(parent,HPos[i],y,iconScale,iconScale);
     }
   }
   
@@ -38,25 +46,34 @@ class Taskbar{
     for(int i=0;i<numTasks;i++)
     {
       image(iconStore[i],HPos[i],y);
-      println(y);
+      //println(y);
     }
     
     return this;
   }
   
-  public int addProcess(PImage icon, int processID)
+  public int addProcess(PImage icon, int processID,Window window)
   {
-    println(numTasks);
+    if(processID==10)
+    {
+      return 10;
+    }
+    //println(numTasks);
     int slot=numTasks;
     processIDS[numTasks]=processID;
     iconStore[numTasks]=icon;
+    windows[numTasks]=window;
     numTasks++;
-    println(numTasks);
+    //println(numTasks);
     return slot;
   }
   
   public void removeProcess(int slot, int processID)
   {
+    if(processID==10)
+    {
+      return;
+    }
     if(processIDS[slot]==processID)
     {
       if(slot==(numTasks-1))
@@ -96,7 +113,20 @@ class Taskbar{
     return -1;
   }
 
+  public boolean mouseClicked()
+  {
+    for(int i=0;i<numTasks;i++)
+    {
+      println(i);
+      if(barButtons[i].isMouseOver())
+      {
+        windows[i].toggleMinimize(processIDS[i]);
+        println("activated");
+      }
+    }
     
+    return false;
+  }
     
     
     
