@@ -117,11 +117,11 @@ class Taskbar{
   {
     for(int i=0;i<numTasks;i++)
     {
-      println(i);
+      //println(i);
       if(barButtons[i].isMouseOver())
       {
         windows[i].toggleMinimize(processIDS[i]);
-        println("activated");
+        //println("activated");
       }
     }
     
