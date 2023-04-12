@@ -1,7 +1,7 @@
 class Taskbar{
   public float[] HPos;
   private float x,y,iconScale;
-  private int maxIcons,numTasks;
+  private int maxIcons,numTasks=0;
   private int[] processIDS;
   public PImage iconStore[];
   
@@ -27,18 +27,35 @@ class Taskbar{
   
   public Taskbar draw()
   {
+    //---------Taskbar---------//
+    fill(0);
+    stroke(0);
+    rect(300,1000,1320,80);
+    circle(300,1005,10);
+    rect(295,1005,5,75);
+    circle(1620,1005,10);
+    rect(1620,1005,5,75);
     for(int i=0;i<numTasks;i++)
     {
       image(iconStore[i],HPos[i],y);
+      println(y);
     }
-  }
-  
-  public void addProcess(PImage icon, int slot, int processID)
-  {
     
+    return this;
   }
   
-  public int removeProcess(int slot, int processID)
+  public int addProcess(PImage icon, int processID)
+  {
+    println(numTasks);
+    int slot=numTasks;
+    processIDS[numTasks]=processID;
+    iconStore[numTasks]=icon;
+    numTasks++;
+    println(numTasks);
+    return slot;
+  }
+  
+  public void removeProcess(int slot, int processID)
   {
     if(processIDS[slot]==processID)
     {
@@ -50,16 +67,34 @@ class Taskbar{
       }
       else
       {
-        
+        for(int i=0;i>numTasks-1;i++)
+        {
+          iconStore[slot]=iconStore[slot+1];
+          processIDS[slot]=processIDS[slot+1];
+        }
+        processIDS[numTasks-1]=-1;
+        iconStore[numTasks-1]=null;
+        numTasks--;
       }
     }
     else
     {
       println("process id did not match slot number");
-    }
-    
+    } 
   }
-  
+  public int slotLookUp(int processID)
+  {
+    int slot;
+    for(int i=0;i<numTasks;i++)
+    {
+      if(processID==processIDS[i])
+      {
+        return i;
+      }
+    }
+    println("Process ID not found");
+    return -1;
+  }
 
     
     

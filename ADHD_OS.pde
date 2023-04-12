@@ -10,15 +10,16 @@ int iconSpaceing=iconSize+20;
 int[] iconRows,iconColums,taskbarSlots;
 int[][] icoIDstorage;
 
-int taskbarVPos=1005,numTaskbarSlots=10;
+int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 
-ArrayList<Integer> taskbar=new ArrayList<>();
+//ArrayList<Integer> taskbar=new ArrayList<>();
 
 Window test,failedToLoad;
 Window[] popups=new Popup[9];
 Window[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
 Button[] taskbarButtons=new Button[numTaskbarSlots];
+Taskbar taskbar;
 
 
 void settings(){
@@ -41,7 +42,7 @@ void setup(){
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
   
-  taskbarSlots=new int[numTaskbarSlots];
+  taskbar=new Taskbar(numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   
   icons = new PImage[3];
   
@@ -110,7 +111,7 @@ void draw(){
   if(desktop)
   {
     background(desktopImage);
-    
+    taskbar.draw();
     if(timeAware)
     {
       if(timerMin!=0)
@@ -154,14 +155,7 @@ void draw(){
     textAlign(CENTER,BOTTOM);
     text(timerDisplay,1760,35);
     
-    //---------Taskbar---------//
-    fill(0);
-    stroke(0);
-    rect(300,1000,1320,80);
-    circle(300,1005,10);
-    rect(295,1005,5,75);
-    circle(1620,1005,10);
-    rect(1620,1005,5,75);
+    
     
     
     //image(ico0,50,50);
@@ -215,16 +209,15 @@ void draw(){
 void mouseClicked(){
   test.mouseClicked();
   
-  for(int i=0;i<desktopIcons.length;i++)
-  {
-    for(int j=0;j<desktopIcons[i].length;j++)
-    {
+  
+      
       if(desktopIcons[0][0].isMouseOver())
       {
-        
+        int slot=taskbar.addProcess(icons[icoIDstorage[1][0]],test.processID());
+        println(slot);
       }
-    }
-  }
+      
+    
 }
   
 //====================================================Key Perssed====================================================//
