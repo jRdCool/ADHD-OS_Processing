@@ -1,5 +1,5 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=true;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true;
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO;
 PImage[] icons;
 String timerDisplay;
@@ -14,6 +14,7 @@ int[][] icoIDstorage;
 
 int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 
+Button start;
 
 Popup failedToLoad;
 Window test;
@@ -47,6 +48,7 @@ void setup(){
   recycleBin.resize(iconSize,iconSize);
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
+  start=new Button(this,700,800,500,100,"start",#22FF22,0);
   
   icons = new PImage[3];
   
@@ -108,6 +110,16 @@ void draw(){
     text("Kat B.",960,380);
     text("Kat B.",960,530);
    
+  }
+  
+  
+  //----------------------------Start Screen----------------------------//
+  if(startScreen)
+  {
+    textAlign(CENTER,CENTER);
+    textSize(75);
+    text("You will have about "+timerMin+" min to complete a series of tasks.",960,100);
+    start.draw();
   }
   
   
@@ -217,7 +229,12 @@ void draw(){
 void mouseClicked(){
   test.mouseClicked(taskbar);
   taskbar.mouseClicked();
-  
+  if(startScreen&&start.isMouseOver())
+  {
+    desktop=true;
+    startScreen=false;
+    counterStarted=true;
+  }
       
   if(desktopIcons[0][1].isMouseOver()&&!test.isOpen())
   {
