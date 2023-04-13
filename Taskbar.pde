@@ -103,6 +103,10 @@ class Taskbar{
   public int slotLookUp(int processID)
   {
     int slot;
+    if(processID==10)
+    {
+      return 10;
+    }
     for(int i=0;i<numTasks;i++)
     {
       if(processID==processIDS[i])

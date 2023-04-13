@@ -1,8 +1,10 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=true,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=true;
-PImage desktopImage,ico0,ico1,ico2;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO;
 PImage[] icons;
 String timerDisplay;
+
+boolean[] popupDraw;
 
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
@@ -12,9 +14,9 @@ int[][] icoIDstorage;
 
 int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 
-//ArrayList<Integer> taskbar=new ArrayList<>();
 
-Window test,failedToLoad;
+Popup failedToLoad;
+Window test;
 Window[] popups=new Popup[9];
 Window[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
@@ -41,6 +43,8 @@ void setup(){
   ico1.resize(iconSize,iconSize);
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
+  recycleBin=loadImage("icons/recycle.jpeg");
+  recycleBin.resize(iconSize,iconSize);
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   
@@ -71,13 +75,13 @@ void setup(){
   
   for(int i=0;i<desktopIcons.length;i++){
     for(int j=0;j<desktopIcons[i].length;j++){
-      desktopIcons[i][j]=new Button(this,iconColums[i],iconRows[j],iconSize,iconSize);
+      desktopIcons[i][j]=new Button(this,iconColums[i],iconRows[j],iconSize,iconSize,i+","+j);
     }
   }
   
+  //failedToLoad=new Popup(
   
-  
-test = new TextEditor(this);
+  test = new TextEditor(this);
   desktopImage=loadImage("ADHDOS_desktop_rev1.png");
   desktopImage.resize(width,height);
 }
@@ -158,15 +162,17 @@ void draw(){
     
     
     
-    //image(ico0,50,50);
+    
     for(int i=0;i<iconRows.length; i++)
     {
       for(int j=0; j<iconColums.length; j++)
       {
-        if(initilizing){icoIDstorage[j][i]=(int)random(0,3);}
-        image(icons[icoIDstorage[j][i]],iconColums[j],iconRows[i]);
+        //if(initilizing){icoIDstorage[i][j]=(int)random(0,3);}
+        //image(icons[icoIDstorage[i][j]],iconColums[i],iconRows[j]);
+        desktopIcons[j][i].draw();
       }
     } 
+    image(recycleBin,iconColums[0],iconRows[0]);
   }
   
   
