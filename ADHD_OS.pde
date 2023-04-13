@@ -45,6 +45,8 @@ void setup(){
   ico2.resize(iconSize,iconSize);
   recycleBin=loadImage("icons/recycle.jpeg");
   recycleBin.resize(iconSize,iconSize);
+  textEditorICO=loadImage("icons/text_edditor.png");
+  textEditorICO.resize(iconSize,iconSize);
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   
@@ -169,10 +171,16 @@ void draw(){
       {
         //if(initilizing){icoIDstorage[i][j]=(int)random(0,3);}
         //image(icons[icoIDstorage[i][j]],iconColums[i],iconRows[j]);
-        desktopIcons[j][i].draw();
+        //desktopIcons[j][i].draw();
       }
-    } 
+    }
+    fill(0);
+    stroke(0);
+    textSize(18);
+    textAlign(CENTER,CENTER);
     image(recycleBin,iconColums[0],iconRows[0]);
+    text("Recycleing Bin",iconColums[0]+(iconSize/2),iconRows[0+1]-10);
+    image(textEditorICO,iconColums[0],iconRows[1]);
   }
   
   
@@ -221,7 +229,7 @@ void mouseClicked(){
       
   if(desktopIcons[0][1].isMouseOver()&&!test.isOpen())
   {
-    int slot=taskbar.addProcess(icons[icoIDstorage[0][1]],test.processID(),test);
+    int slot=taskbar.addProcess(textEditorICO,test.processID(),test);
     //println(slot);
     test.setActivity(true);
   }
