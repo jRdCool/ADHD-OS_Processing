@@ -291,6 +291,7 @@ void mouseClicked(){
     taskbar.mouseClicked();
     
     if(!onWindow){
+      
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
         println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
@@ -298,6 +299,14 @@ void mouseClicked(){
         int slot=taskbar.addProcess(textEditorICO,texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
+      
+      if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
+        println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
+        Window game = new skiny_mann(this);
+        int slot=taskbar.addProcess(textEditorICO,game.processID(),game);
+        windows.add(game);
+      }
+      
     }
   }
   if(startScreen&&start.isMouseOver())

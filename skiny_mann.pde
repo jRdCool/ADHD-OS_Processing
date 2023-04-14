@@ -1,6 +1,7 @@
 class skiny_mann extends Window{
-  public skiny_mann(PApplet parent, int processID){
-    super(parent,100,100,1280,720,"Skinny Mann",processID);
+  public skiny_mann(PApplet parent){
+    super(parent,100,100,1280,720,"Skinny Mann",2);
+    icon=skinnyMannIcon;
   }
   
   void drawWindow(){
