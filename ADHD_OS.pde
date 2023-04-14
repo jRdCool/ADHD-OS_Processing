@@ -291,7 +291,7 @@ void mouseClicked(){
       {
         println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window texteditor = new TextEditor(this);
-        int slot=taskbar.addProcess(textEditorICO,texteditor.processID(),texteditor);
+        int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
     }
