@@ -1,5 +1,5 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,gamePhysicsLoop;
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,skinnyMannIcon;
 PImage[] icons;
 String timerDisplay;
@@ -420,4 +420,11 @@ boolean isWindowAllreadyOpen(int PID){
     }
   }
   return false;
+}
+
+void gamePhysicsThread(){
+  skiny_mann game=(skiny_mann)taskbar.getWindow(taskbar.slotLookUp(2));
+  while(gamePhysicsLoop){
+    game.physicsThread();
+  }
 }

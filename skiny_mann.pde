@@ -5,19 +5,21 @@ public class skiny_mann extends Window {
     Stage.source=this;
     StageComponent.source=this;
     icon=skinnyMannIcon;
+    gamePhysicsLoop=true;
     for (int i=0; i<players.length; i++) {
       players[i]=new Player(20, 699, 1, 0);
     }
     loadLevel("data/levels/level-1");
+    thread("gamePhysicsThread");
   }
-  boolean reachedEnd=false, checkpointIn3DStage, level_complete, E_pressed, setPlayerPosTo,viewingItemContents,e3DMode;
+  boolean reachedEnd=false, checkpointIn3DStage, level_complete, E_pressed, setPlayerPosTo, viewingItemContents, e3DMode,player1_moving_left,player1_moving_right,player1_jumping,dead;
   String rootPath, author, displayText;
   JSONArray mainIndex;
   Level level;
-  int currentStageIndex, respawnX, respawnY, respawnStage, drawCamPosX, drawCamPosY, currentPlayer=0, coinCount, displayTextUntill, selectedIndex, stageIndex, tpCords[]=new int[3], gmillis,viewingItemIndex=-1,camPos,camPosY;
+  int currentStageIndex, respawnX, respawnY, respawnStage, drawCamPosX, drawCamPosY, currentPlayer=0, coinCount, displayTextUntill, selectedIndex, stageIndex, tpCords[]=new int[3], gmillis, viewingItemIndex=-1, camPos, camPosY,mspc,eadgeScroleDist=600,eadgeScroleDistV=200,death_cool_down,curMills,lasMills;
   Player players[]=new Player[10];
   ArrayList<Boolean> coins;
-  float Scale=1;
+  float Scale=1,gravity=0.001;
 
   void drawWindow() {
     stageLevelDraw();
@@ -34,11 +36,15 @@ public class skiny_mann extends Window {
 
   void mouseReleasedWindow(int x, int y) {
   }
+  
+  void onCloseAction(Taskbar tb,int processID){
+    gamePhysicsLoop=false;
+  }
 
   void stageLevelDraw() {
     Stage stage=level.stages.get(currentStageIndex);
     fill(stage.skyColor);//sky color
-    rect(1,1,1280,720);
+    rect(1, 1, 1280, 720);
     int selectIndex=-1;//reset the selected obejct
     if (E_pressed&&viewingItemContents) {//if you are viewing the contence of an element and you press E
       E_pressed=false;//close the contence of the eleiment
@@ -82,6 +88,231 @@ public class skiny_mann extends Window {
         text("continue", Scale*565, Scale*485);
       }
     }
+  }
+  
+  void physicsThread(){
+    curMills=millis();
+    mspc=curMills-lasMills;
+    if (true) {
+      try {
+        playerPhysics();
+      }
+      catch(Throwable e) {
+      }
+    } else {
+      random(10);//some how make it so it doesent stop the thread
+    }
+    lasMills=curMills;
+  }
+
+  void playerPhysics() {
+    int calcingPlayer = currentPlayer;
+
+    if (!e3DMode) {
+      if (player1_moving_right) {//move the player right
+        float newpos=players[calcingPlayer].getX()+mspc*0.4;//calculate new position
+        if (!level_colide(newpos+10, players[calcingPlayer].getY())) {//check if the player can walk up "stairs"
+          if (!level_colide(newpos+10, players[calcingPlayer].getY()-25)) {//check if there is something blocking the player 25 from his feet
+            if (!level_colide(newpos+10, players[calcingPlayer].getY()-50)) {//check if there is something blocking the player 50 from his feet
+              if (!level_colide(newpos+10, players[calcingPlayer].getY()-75)) {//check if there is something blocking the player 75 from his feet
+                players[calcingPlayer].setX(newpos);//move the player if all is good
+              }
+            }
+          }
+        } else if ((!level_colide(newpos+10, players[calcingPlayer].getY()-10)&&!level_colide(newpos+10, players[calcingPlayer].getY()-50)&&!level_colide(newpos+10, players[calcingPlayer].getY()-75))&&players[calcingPlayer].verticalVelocity<0.008) {//check if the new posaition would place the player inside of a wall
+          if (!level_colide(newpos+10, players[calcingPlayer].getY()-1)) {//autojump move the player up if they could concivaly go up a stair
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-1);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-2)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-2);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-3)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-3);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-4)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-4);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-5)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-5);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-6)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-6);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-7)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-7);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-8)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-8);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-9)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-9);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-10)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-10);
+          }
+        }
+
+        if (players[calcingPlayer].getAnimationCooldown()<=0) {//change the player pose to make them look like there waljking
+          players[calcingPlayer].setPose(players[calcingPlayer].getPose()+1);
+          players[calcingPlayer].setAnimationCooldown(4);
+          if (players[calcingPlayer].getPose()==13) {
+            players[calcingPlayer].setPose(1);
+          }
+        } else {
+          players[calcingPlayer].setAnimationCooldown(players[calcingPlayer].getAnimationCooldown()-0.05*mspc);//animation cooldown
+        }
+      }
+
+      if (player1_moving_left) {//player moving left
+        float newpos=players[calcingPlayer].getX()-mspc*0.4;//calculte new position
+        if (!level_colide(newpos-10, players[calcingPlayer].getY())) {//check if the player can walk up "stairs"
+          if (!level_colide(newpos-10, players[calcingPlayer].getY()-25)) {//check if there is something blocking the player 25 from his feet
+            if (!level_colide(newpos-10, players[calcingPlayer].getY()-50)) {//check if there is something blocking the player 50 from his feet
+              if (!level_colide(newpos-10, players[calcingPlayer].getY()-75)) {//check if there is something blocking the player 75 from his feet
+                players[calcingPlayer].setX(newpos);//move the player
+              }
+            }
+          }
+        } else if ((!level_colide(newpos-10, players[calcingPlayer].getY()-10)&&!level_colide(newpos-10, players[calcingPlayer].getY()-50)&&!level_colide(newpos-10, players[calcingPlayer].getY()-75))&&players[calcingPlayer].verticalVelocity<0.008) {//check if the new posaition would place the player inside of a wall
+          if (!level_colide(newpos+10, players[calcingPlayer].getY()-1)) {//autojump move the player up if they could concivaly go up a stair
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-1);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-2)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-2);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-3)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-3);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-4)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-4);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-5)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-5);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-6)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-6);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-7)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-7);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-8)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-8);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-9)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-9);
+          } else if (!level_colide(newpos-10, players[calcingPlayer].getY()-10)) {
+            players[calcingPlayer].setX(newpos);
+            players[calcingPlayer].setY(players[calcingPlayer].getY()-10);
+          }
+        }
+
+        if (players[calcingPlayer].getAnimationCooldown()<=0) {//change the player pose to make them look lie there walking
+          players[calcingPlayer].setPose(players[calcingPlayer].getPose()-1);
+          players[calcingPlayer].setAnimationCooldown(4);
+          if (players[calcingPlayer].getPose()==0) {
+            players[calcingPlayer].setPose(12);
+          }
+        } else {
+          players[calcingPlayer].setAnimationCooldown(players[calcingPlayer].getAnimationCooldown()-0.05*mspc);//animation cooldown
+        }
+      }
+
+      if (!player1_moving_right&&!player1_moving_left) {//reset the player pose if the player is not moving
+        players[calcingPlayer].setPose(1);
+        players[calcingPlayer].setAnimationCooldown(4);
+      }
+
+
+
+      if (true) {//gravity
+        float pd = (players[calcingPlayer].verticalVelocity*mspc+0.5*gravity*(float)java.lang.Math.pow(mspc, 2))+players[calcingPlayer].y;//calculate the new verticle position the player shoud be at
+
+        if ((!level_colide(players[calcingPlayer].getX()-10, pd)&&!level_colide(players[calcingPlayer].getX()-5, pd)&&!level_colide(players[calcingPlayer].getX(), pd)&&!level_colide(players[calcingPlayer].getX()+5, pd)&&!level_colide(players[calcingPlayer].getX()+10, pd))) {//check if that location would be inside of the ground
+          if ((!level_colide(players[calcingPlayer].getX()-10, pd-75-1)&&!level_colide(players[calcingPlayer].getX()-5, pd-75-1)&&!level_colide(players[calcingPlayer].getX(), pd-75-1)&&!level_colide(players[calcingPlayer].getX()+5, pd-75-1)&&!level_colide(players[calcingPlayer].getX()+10, pd-75-1))||players[calcingPlayer].verticalVelocity>0.001) {//check if that location would cause the player's head to be indide of something
+            players[calcingPlayer].verticalVelocity=players[calcingPlayer].verticalVelocity+gravity*mspc;//calculate the players new verticle velocity
+            players[calcingPlayer].y=pd;//update the postiton of the player
+          } else {
+            players[calcingPlayer].verticalVelocity=0;//stop the player's verticle motion
+          }
+        } else {
+          players[calcingPlayer].verticalVelocity=0;//stop the player's verticle motion
+        }
+      }
+
+      //in ground detection and rectification
+      if (!(!level_colide(players[calcingPlayer].getX()-10, players[calcingPlayer].getY())&&!level_colide(players[calcingPlayer].getX()-5, players[calcingPlayer].getY())&&!level_colide(players[calcingPlayer].getX(), players[calcingPlayer].getY())&&!level_colide(players[calcingPlayer].getX()+5, players[calcingPlayer].getY())&&!level_colide(players[calcingPlayer].getX()+10, players[calcingPlayer].getY()))) {//check if the player's position is in the ground
+        players[calcingPlayer].setY(players[calcingPlayer].getY()-1);//move the player up
+        players[calcingPlayer].verticalVelocity=0;//stop verticle veloicty
+      }
+
+
+      if (player1_jumping) {//jumping
+        if (!(!level_colide(players[calcingPlayer].getX()-10, players[calcingPlayer].getY()+2)&&!level_colide(players[calcingPlayer].getX()-5, players[calcingPlayer].getY()+2)&&!level_colide(players[calcingPlayer].getX(), players[calcingPlayer].getY()+2)&&!level_colide(players[calcingPlayer].getX()+5, players[calcingPlayer].getY()+2)&&!level_colide(players[calcingPlayer].getX()+10, players[calcingPlayer].getY()+2))) {//check if the player is on the ground
+          players[calcingPlayer].verticalVelocity=-0.75;  //if the player is on the ground and they are trying to jump then set thire verticle velocity
+        }
+      } else if (players[calcingPlayer].verticalVelocity<0) {//if the player stops pressing space bar before they stop riseing then start moving the player down
+        players[calcingPlayer].verticalVelocity=0.01;
+      }
+
+
+
+      if (players[calcingPlayer].getX()-camPos>(1280-eadgeScroleDist)) {//move the camera if the player goes too close to the end of the screen
+        camPos=(int)(players[calcingPlayer].getX()-(1280-eadgeScroleDist));
+      }
+
+
+      if (players[calcingPlayer].getX()-camPos<eadgeScroleDist&&camPos>0) {//move the camera if the player goes too close to the end of the screen
+        camPos=(int)(players[calcingPlayer].getX()-eadgeScroleDist);
+      }
+
+      if (players[calcingPlayer].getY()+camPosY>720-eadgeScroleDistV&&camPosY>0) {//move the camera if the player goes too close to the end of the screen
+        camPosY-=players[calcingPlayer].getY()+camPosY-(720-eadgeScroleDistV);
+      }
+
+      if (players[calcingPlayer].getY()+camPosY<eadgeScroleDistV+75) {//move the camera if the player goes too close to the end of the screen
+        camPosY-=players[calcingPlayer].getY()+camPosY-(eadgeScroleDistV+75);
+      }
+      if (camPos<0)//prevent the camera from moving out of the valid areia
+        camPos=0;
+      if (camPosY<0)
+        camPosY=0;
+    }
+    if (players[calcingPlayer].getY()>720) {//kill the player if they go below the stage
+      dead=true;
+      death_cool_down=0;
+    }
+
+    if (dead) {//if the player is dead
+      currentStageIndex=respawnStage;//go back to the stage they last checkpointed on
+      stageIndex=respawnStage;
+
+      players[calcingPlayer].setX(respawnX);//move the player back to their spawnpoint
+      players[calcingPlayer].setY(respawnY);
+    }
+    if (setPlayerPosTo) {//move the player to a position that is wanted
+      players[calcingPlayer].setX(tpCords[0]).setY(tpCords[1]);
+      players[calcingPlayer].z=tpCords[2];
+      setPlayerPosTo=false;
+      players[calcingPlayer].verticalVelocity=0;
+    }
+    //////////////////////////////
+  }
+  /**check if a point is inside of a solid object
+   
+   */
+  boolean level_colide(float x, float y) {
+    Stage stage=level.stages.get(currentStageIndex);
+    for (int i=0; stageLoopCondishen(i, stage); i++) {
+      if (stage.parts.get(i).colide(x, y, false)) {
+        return true;
+      }
+    }
+
+
+
+    return false;
   }
 
   void loadLevel(String fdp) {
@@ -137,9 +368,9 @@ public class skiny_mann extends Window {
   void strokeWeight(float s) {
     parent.strokeWeight(s);
   }
-  
+
   boolean stageLoopCondishen(int i, Stage stage) {
-      return i<stage.parts.size();
+    return i<stage.parts.size();
   }
 
   void drawCoin(float x, float y, float Scale) {
@@ -161,191 +392,191 @@ public class skiny_mann extends Window {
     fill(#AE00FA);
     ellipse(x, y, 5*scale, 40*scale);
   }
-  
+
   void draw_mann(float x, float y, int pose, float scale, int shirt_color) {
-  strokeWeight(0);
-  if (shirt_color==0) {//red
-    fill(255, 0, 0);
-    stroke(255, 0, 0);
-  }
+    strokeWeight(0);
+    if (shirt_color==0) {//red
+      fill(255, 0, 0);
+      stroke(255, 0, 0);
+    }
 
-  if (pose==1) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-10*scale, y-20*scale, scale*6, scale*10);
-    rect(x+4*scale, y-20*scale, scale*6, scale*10);
-    rect(x-10*scale, y-10*scale, scale*6, scale*10);
-    rect(x+4*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==1) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-10*scale, y-20*scale, scale*6, scale*10);
+      rect(x+4*scale, y-20*scale, scale*6, scale*10);
+      rect(x-10*scale, y-10*scale, scale*6, scale*10);
+      rect(x+4*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==2) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-12*scale, y-20*scale, scale*6, scale*10);
-    rect(x+6*scale, y-20*scale, scale*6, scale*10);
-    rect(x-14*scale, y-10*scale, scale*6, scale*10);
-    rect(x+8*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==2) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-12*scale, y-20*scale, scale*6, scale*10);
+      rect(x+6*scale, y-20*scale, scale*6, scale*10);
+      rect(x-14*scale, y-10*scale, scale*6, scale*10);
+      rect(x+8*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==3) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-13*scale, y-20*scale, scale*6, scale*10);
-    rect(x+7*scale, y-20*scale, scale*6, scale*10);
-    rect(x-18*scale, y-10*scale, scale*6, scale*10);
-    rect(x+12*scale, y-10*scale, scale*6, scale*10);
-  }
-  if (pose==4) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-12*scale, y-30*scale, scale*6, scale*10);
-    rect(x+6*scale, y-30*scale, scale*6, scale*10);
-    rect(x-16*scale, y-20*scale, scale*6, scale*10);
-    rect(x+10*scale, y-20*scale, scale*6, scale*10);
-    rect(x-19*scale, y-10*scale, scale*6, scale*10);
-    rect(x+15*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==3) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-13*scale, y-20*scale, scale*6, scale*10);
+      rect(x+7*scale, y-20*scale, scale*6, scale*10);
+      rect(x-18*scale, y-10*scale, scale*6, scale*10);
+      rect(x+12*scale, y-10*scale, scale*6, scale*10);
+    }
+    if (pose==4) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-12*scale, y-30*scale, scale*6, scale*10);
+      rect(x+6*scale, y-30*scale, scale*6, scale*10);
+      rect(x-16*scale, y-20*scale, scale*6, scale*10);
+      rect(x+10*scale, y-20*scale, scale*6, scale*10);
+      rect(x-19*scale, y-10*scale, scale*6, scale*10);
+      rect(x+15*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==5) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-13*scale, y-20*scale, scale*6, scale*10);
-    rect(x+7*scale, y-20*scale, scale*6, scale*10);
-    rect(x-18*scale, y-10*scale, scale*6, scale*10);
-    rect(x+12*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==5) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-13*scale, y-20*scale, scale*6, scale*10);
+      rect(x+7*scale, y-20*scale, scale*6, scale*10);
+      rect(x-18*scale, y-10*scale, scale*6, scale*10);
+      rect(x+12*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==6) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-12*scale, y-20*scale, scale*6, scale*10);
-    rect(x+6*scale, y-20*scale, scale*6, scale*10);
-    rect(x-14*scale, y-10*scale, scale*6, scale*10);
-    rect(x+8*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==6) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-12*scale, y-20*scale, scale*6, scale*10);
+      rect(x+6*scale, y-20*scale, scale*6, scale*10);
+      rect(x-14*scale, y-10*scale, scale*6, scale*10);
+      rect(x+8*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==7) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-10*scale, y-20*scale, scale*6, scale*10);
-    rect(x+4*scale, y-20*scale, scale*6, scale*10);
-    rect(x-10*scale, y-10*scale, scale*6, scale*10);
-    rect(x+4*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==7) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-10*scale, y-20*scale, scale*6, scale*10);
+      rect(x+4*scale, y-20*scale, scale*6, scale*10);
+      rect(x-10*scale, y-10*scale, scale*6, scale*10);
+      rect(x+4*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==8) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-8*scale, y-20*scale, scale*6, scale*10);
-    rect(x+2*scale, y-20*scale, scale*6, scale*10);
-    rect(x-6*scale, y-10*scale, scale*6, scale*10);
-    rect(x+1*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==8) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-8*scale, y-20*scale, scale*6, scale*10);
+      rect(x+2*scale, y-20*scale, scale*6, scale*10);
+      rect(x-6*scale, y-10*scale, scale*6, scale*10);
+      rect(x+1*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==9) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-7*scale, y-20*scale, scale*6, scale*10);
-    rect(x+1*scale, y-20*scale, scale*6, scale*10);
-    rect(x-2*scale, y-10*scale, scale*6, scale*10);
-    rect(x-4*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==9) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-7*scale, y-20*scale, scale*6, scale*10);
+      rect(x+1*scale, y-20*scale, scale*6, scale*10);
+      rect(x-2*scale, y-10*scale, scale*6, scale*10);
+      rect(x-4*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==10) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-8*scale, y-30*scale, scale*6, scale*10);
-    rect(x+2*scale, y-30*scale, scale*6, scale*10);
-    rect(x-4*scale, y-20*scale, scale*6, scale*10);
-    rect(x-4*scale, y-20*scale, scale*6, scale*10);
-    rect(x+2*scale, y-10*scale, scale*6, scale*10);
-    rect(x-7*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==10) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-8*scale, y-30*scale, scale*6, scale*10);
+      rect(x+2*scale, y-30*scale, scale*6, scale*10);
+      rect(x-4*scale, y-20*scale, scale*6, scale*10);
+      rect(x-4*scale, y-20*scale, scale*6, scale*10);
+      rect(x+2*scale, y-10*scale, scale*6, scale*10);
+      rect(x-7*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==11) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-7*scale, y-20*scale, scale*6, scale*10);
-    rect(x+1*scale, y-20*scale, scale*6, scale*10);
-    rect(x-2*scale, y-10*scale, scale*6, scale*10);
-    rect(x-4*scale, y-10*scale, scale*6, scale*10);
-  }
+    if (pose==11) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-7*scale, y-20*scale, scale*6, scale*10);
+      rect(x+1*scale, y-20*scale, scale*6, scale*10);
+      rect(x-2*scale, y-10*scale, scale*6, scale*10);
+      rect(x-4*scale, y-10*scale, scale*6, scale*10);
+    }
 
-  if (pose==12) {
-    rect(x-10*scale, y-55*scale, scale*20, scale*25);
-    fill(-17813);
-    stroke(-17813);
-    rect(x-15*scale, y-75*scale, scale*30, scale*20);
-    fill(-16763137);
-    stroke(-16763137);
-    rect(x-10*scale, y-30*scale, scale*6, scale*10);
-    rect(x+4*scale, y-30*scale, scale*6, scale*10);
-    rect(x-8*scale, y-20*scale, scale*6, scale*10);
-    rect(x+2*scale, y-20*scale, scale*6, scale*10);
-    rect(x-6*scale, y-10*scale, scale*6, scale*10);
-    rect(x+1*scale, y-10*scale, scale*6, scale*10);
+    if (pose==12) {
+      rect(x-10*scale, y-55*scale, scale*20, scale*25);
+      fill(-17813);
+      stroke(-17813);
+      rect(x-15*scale, y-75*scale, scale*30, scale*20);
+      fill(-16763137);
+      stroke(-16763137);
+      rect(x-10*scale, y-30*scale, scale*6, scale*10);
+      rect(x+4*scale, y-30*scale, scale*6, scale*10);
+      rect(x-8*scale, y-20*scale, scale*6, scale*10);
+      rect(x+2*scale, y-20*scale, scale*6, scale*10);
+      rect(x-6*scale, y-10*scale, scale*6, scale*10);
+      rect(x+1*scale, y-10*scale, scale*6, scale*10);
+    }
   }
-}
 }
