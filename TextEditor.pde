@@ -1,6 +1,6 @@
 class TextEditor extends Window {
   TextEditor(PApplet parent) {
-    super(parent, 200, 100, 1520, 880, "conTEXTual",1);
+    super(parent, 200, 100, 1520, 880, "conTEXTual",1,textEditorICO);
   }
 
   String documentContent="Test";
