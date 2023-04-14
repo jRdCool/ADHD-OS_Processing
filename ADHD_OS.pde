@@ -218,6 +218,8 @@ void draw(){
     image(textEditorICO,iconColums[0],iconRows[1]);
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
     
+    image(ico1,iconColums[0],iconRows[3]);
+    
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
     }
@@ -294,7 +296,13 @@ void mouseClicked(){
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
-    }
+      if(desktopIcons[0][3].isMouseOver()&&!isWindowAllreadyOpen(3))
+      {
+        Window mathProblems=new Math(this);
+        int slot=taskbar.addProcess(mathProblems.processID(),mathProblems);
+        windows.add(mathProblems);
+      }
+    } 
   }
   if(startScreen&&start.isMouseOver())
   {
