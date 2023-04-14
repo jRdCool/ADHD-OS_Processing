@@ -18,7 +18,7 @@ int writingFun;
 Button start,websightLink;
 
 Popup failedToLoad;
-Window test;
+ArrayList<Window> windows=new ArrayList<>();
 Window[] popups=new Popup[9];
 Window[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
@@ -88,7 +88,7 @@ void setup(){
   
   //failedToLoad=new Popup(
   
-  test = new TextEditor(this);
+  //test = 
   desktopImage=loadImage("ADHDOS_desktop_rev2.png");
   desktopImage.resize(width,height);
 }
@@ -217,9 +217,13 @@ void draw(){
     text("Recycleing Bin",iconColums[0]+(iconSize/2),iconRows[0+1]-10);
     image(textEditorICO,iconColums[0],iconRows[1]);
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
+    
+    for(int i=0;i<windows.size();i++){
+      windows.get(i).draw();
+    }
   }
   
-  
+
   
   initilizing=false;
 //-------------------------frame calculations
@@ -257,18 +261,41 @@ void draw(){
   }
   
   
-  if(test.isOpen)
-  {
-    test.draw();
-  }
+
   
 }
 
 
 //====================================================Mouse Clicked====================================================//
 void mouseClicked(){
-  test.mouseClicked(taskbar);
-  taskbar.mouseClicked();
+  if(desktop)
+  {
+    for(int i=0;i<windows.size();i++){
+      windows.get(i).isFocused=false;
+    }
+    int winNum=windows.size();
+    boolean onWindow=false;
+    for(int i=windows.size()-1;i>=0&&windows.size()>0;i--){
+      if(windows.get(i).mouseClicked(taskbar)){
+        if(windows.size()==winNum && i!=windows.size()-1){
+          windows.add(windows.remove(i));
+        }
+        onWindow=true;
+        break;
+      }
+    }
+    taskbar.mouseClicked();
+    
+    if(!onWindow){
+      if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
+      {
+        println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
+        Window texteditor = new TextEditor(this);
+        int slot=taskbar.addProcess(textEditorICO,texteditor.processID(),texteditor);
+        windows.add(texteditor);
+      }
+    }
+  }
   if(startScreen&&start.isMouseOver())
   {
     desktop=true;
@@ -282,32 +309,38 @@ void mouseClicked(){
     link("https://cbi-games.org");
   }
       
-  if(desktopIcons[0][1].isMouseOver()&&!test.isOpen())
-  {
-    int slot=taskbar.addProcess(textEditorICO,test.processID(),test);
-    //println(slot);
-    test.setActivity(true);
-  }
-      
       
     
 }
   
 //====================================================Key Perssed====================================================//
 void keyPressed(){
-    
-    test.keyPressed();
+    for(int i=0;i<windows.size();i++){
+      windows.get(i).keyPressed();
+    }
     
 }
 
 //====================================================Mouse Pressed====================================================//
 void mousePressed(){
-test.mousePressed();
+  for(int i=0;i<windows.size();i++){
+    windows.get(i).isFocused=false;
+  }
+  for(int i=windows.size()-1;i>=0&&windows.size()>0;i--){
+    if(windows.get(i).mousePressed()){
+      if(i!=windows.size()-1){
+        windows.add(windows.remove(i));
+      }
+      break;
+    }
+  }
 }
 
 //====================================================Mouse Released====================================================//
 void mouseReleased(){
-test.mouseReleased();
+  for(int i=0;i<windows.size();i++){
+      windows.get(i).mouseReleased();
+  }
 }
 
 
@@ -363,4 +396,13 @@ void stateCheck(int processType){//1=boring,10=fun
   
   
   
+}
+
+boolean isWindowAllreadyOpen(int PID){
+  for(int i=0;i<windows.size();i++){
+    if(windows.get(i).processID()==PID){
+      return true;
+    }
+  }
+  return false;
 }

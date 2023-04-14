@@ -139,6 +139,12 @@ class Window{
   private void closeButtonPressed(Taskbar tb){
     onCloseAction(tb,PID);
     setActivity(false);
+    windows.remove(this);
+    int slot=tb.slotLookUp(PID);
+    if(slot!=-1){
+      tb.removeProcess(slot,PID);
+    }
+    
     //remove window from window list
   }
   //called when the close window button is pressed
