@@ -1,6 +1,6 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,skinnyMannIcon;
 PImage[] icons;
 String timerDisplay;
 
@@ -45,11 +45,14 @@ void setup(){
   ico1.resize(iconSize,iconSize);
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
+  
   recycleBin=loadImage("icons/recycle.jpeg");
   recycleBin.resize(iconSize,iconSize);
   textEditorICO=loadImage("icons/text_edditor.png");
   textEditorICO.resize(iconSize,iconSize);
   taskListBackground=loadImage("taskListBackground.png");
+  skinnyMannIcon=loadImage("data/assets/skinny mann face.PNG");
+  skinnyMannIcon.resize(iconSize,iconSize);
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
@@ -215,6 +218,8 @@ void draw(){
     text("Recycleing Bin",iconColums[0]+(iconSize/2),iconRows[0+1]-10);
     image(textEditorICO,iconColums[0],iconRows[1]);
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
+    image(skinnyMannIcon,iconColums[0],iconRows[2]);
+    text("skinny mann", iconColums[0]+(iconSize/2),iconRows[2+1]-10);
   }
   
   
