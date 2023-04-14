@@ -65,6 +65,7 @@ class Taskbar{
     return slot;
   }
   
+  //======================================================removal process===============================================//
   public void removeProcess(int slot, int processID)
   {
     if(processID==10)
@@ -73,6 +74,7 @@ class Taskbar{
     }
     if(processIDS[slot]==processID)
     {
+      //println(numTasks+" "+slot);
       if(slot==(numTasks-1))
       {
         numTasks--;
@@ -80,8 +82,10 @@ class Taskbar{
       }
       else
       {
-        for(int i=0;i>numTasks-1;i++)
+        //println("else "+slot);
+        for(;slot<numTasks;slot++)
         {
+          //println("in loop");
           processIDS[slot]=processIDS[slot+1];
           windows[slot]=windows[slot+1];
         }

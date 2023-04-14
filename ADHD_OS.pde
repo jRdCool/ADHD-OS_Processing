@@ -224,6 +224,8 @@ void draw(){
     text("skinny mann", iconColums[0]+(iconSize/2),iconRows[2+1]-10);
 
     
+    image(ico1,iconColums[0],iconRows[3]);
+    
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
     }
@@ -301,6 +303,7 @@ void mouseClicked(){
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
+
       
       if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
         println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
@@ -310,6 +313,15 @@ void mouseClicked(){
       }
       
     }
+
+      if(desktopIcons[0][3].isMouseOver()&&!isWindowAllreadyOpen(3))
+      {
+        Window mathProblems=new Math(this);
+        int slot=taskbar.addProcess(mathProblems.processID(),mathProblems);
+        windows.add(mathProblems);
+      }
+    } 
+
   }
   if(startScreen&&start.isMouseOver())
   {
