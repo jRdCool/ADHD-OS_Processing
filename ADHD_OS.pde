@@ -50,7 +50,7 @@ void setup(){
   textEditorICO.resize(iconSize,iconSize);
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
-  start=new Button(this,700,800,500,100,"start",#22FF22,0);
+  start=new Button(this,700,950,500,100,"start",#22FF22,0);
   
   icons = new PImage[3];
   
@@ -121,6 +121,8 @@ void draw(){
     textAlign(CENTER,CENTER);
     textSize(75);
     text("You will have about "+timerMin+" min to complete a series of tasks.",960,100);
+    text("During that time you will experience a few 'Interesting' things.",960,200);
+    text("Do your best and have fun.",960,300);
     start.draw();
   }
   
@@ -220,6 +222,11 @@ void draw(){
     }
     if(timerSec%5==0)
     {
+      int state=10;
+      for(int i=0;i<taskbar.slotsUsed();i++)
+      {
+        if(taskbar.getWindow(i)
+      }
       stateCheck(5);
     }
   }
@@ -229,7 +236,7 @@ void draw(){
   {
     test.draw();
   }
-
+  
 }
 
 

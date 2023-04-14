@@ -52,7 +52,7 @@ class Taskbar{
     return this;
   }
   
-  public int addProcess(PImage icon, int processID,Window window)
+  public int addProcess(PImage icon, int processID, Window window)
   {
     if(processID==10)
     {
@@ -131,6 +131,11 @@ class Taskbar{
     }
     
     return false;
+  }
+  
+  public Window getWindow(int slot)
+  {
+    return windows[slot];
   }
     
     

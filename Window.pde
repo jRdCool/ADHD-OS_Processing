@@ -165,4 +165,13 @@ class Window{
     if(processID==PID)
     isMinimized=!isMinimized;
   }
+  
+  public void setFunScale(int scale)
+  {
+    funScale=scale;
+  }
+  public int readFunScale()
+  {
+    return funScale;
+  }
 }
