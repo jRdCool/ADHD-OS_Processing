@@ -305,7 +305,7 @@ void mouseClicked(){
       if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
         println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window game = new skiny_mann(this);
-        int slot=taskbar.addProcess(textEditorICO,game.processID(),game);
+        int slot=taskbar.addProcess(game.processID(),game);
         windows.add(game);
       }
       
