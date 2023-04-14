@@ -15,7 +15,7 @@ int[][] icoIDstorage;
 int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 int writingFun;
 
-Button start;
+Button start,websightLink;
 
 Popup failedToLoad;
 ArrayList<Window> windows=new ArrayList<>();
@@ -56,6 +56,7 @@ void setup(){
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
+  websightLink=new Button(this,760,800,400,100);
   
   icons = new PImage[3];
   
@@ -119,7 +120,8 @@ void draw(){
     text("Kat B.",960,530);
     text("Developed by Stephen Duffy",960,730);
     text("Available at:",960,780);
-    link("cbi-games.org");
+    //websightLink.draw();
+    text("cbi-games.org",960,830);
    
   }
   
@@ -296,7 +298,7 @@ void mouseClicked(){
       {
         println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window texteditor = new TextEditor(this);
-        int slot=taskbar.addProcess(textEditorICO,texteditor.processID(),texteditor);
+        int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
       
@@ -315,6 +317,11 @@ void mouseClicked(){
     startScreen=false;
     counterStarted=true;
     //test.setFunScale();
+  }
+  
+  if(websightLink.isMouseOver()&&credits)
+  {
+    link("https://cbi-games.org");
   }
       
       

@@ -10,7 +10,7 @@ class Window{
   Button titleBar,minimiseButton,closeButton;
   PApplet parent;
   
-  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID){
+  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID,PImage icon){
     this.x=x;
     this.y=y;
     this.length=length;
@@ -21,6 +21,7 @@ class Window{
     closeButton=new Button(parent,x+length-22,y+1,22,18,"X",#FF0000,240).setStrokeWeight(0).setTextColor(255);
     minimiseButton=new Button(parent,x+length-closeButton.lengthX-22,y+1,22,18,"-",230,220).setStrokeWeight(0);
     this.PID=processID;
+    this.icon=icon;
   }
   
   final void draw(){

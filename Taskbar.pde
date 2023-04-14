@@ -3,7 +3,6 @@ class Taskbar{
   private float x,y,iconScale;
   private int maxIcons,numTasks=0;
   private int[] processIDS;
-  public PImage iconStore[];
   private Window[] windows;
   private Button[] barButtons;
   
@@ -14,7 +13,6 @@ class Taskbar{
     this.maxIcons=maxIcons;
     barButtons=new Button[maxIcons];
     windows=new Window[maxIcons];
-    iconStore=new PImage[maxIcons];
     processIDS=new int[maxIcons];
     HPos = new float[maxIcons];
     HPos[0]=x;
@@ -45,14 +43,14 @@ class Taskbar{
     rect(1620,1005,5,75);
     for(int i=0;i<numTasks;i++)
     {
-      image(iconStore[i],HPos[i],y);
+      image(windows[i].icon,HPos[i],y);
       //println(y);
     }
     
     return this;
   }
   
-  public int addProcess(PImage icon, int processID, Window window)
+  public int addProcess(int processID, Window window)
   {
     if(processID==10)
     {
@@ -61,7 +59,6 @@ class Taskbar{
     //println(numTasks);
     int slot=numTasks;
     processIDS[numTasks]=processID;
-    iconStore[numTasks]=icon;
     windows[numTasks]=window;
     numTasks++;
     //println(numTasks);
@@ -80,18 +77,15 @@ class Taskbar{
       {
         numTasks--;
         processIDS[slot]=-1;
-        iconStore[slot]=null;
       }
       else
       {
         for(int i=0;i>numTasks-1;i++)
         {
-          iconStore[slot]=iconStore[slot+1];
           processIDS[slot]=processIDS[slot+1];
           windows[slot]=windows[slot+1];
         }
         processIDS[numTasks-1]=-1;
-        iconStore[numTasks-1]=null;
         numTasks--;
       }
     }
