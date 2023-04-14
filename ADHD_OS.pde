@@ -298,7 +298,6 @@ void mouseClicked(){
       
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
-        println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window texteditor = new TextEditor(this);
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
@@ -306,13 +305,12 @@ void mouseClicked(){
 
       
       if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
-        println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window game = new skiny_mann(this);
         int slot=taskbar.addProcess(game.processID(),game);
         windows.add(game);
       }
       
-    }
+    
 
       if(desktopIcons[0][3].isMouseOver()&&!isWindowAllreadyOpen(3))
       {
@@ -321,8 +319,8 @@ void mouseClicked(){
         windows.add(mathProblems);
       }
     } 
-
   }
+
   if(startScreen&&start.isMouseOver())
   {
     desktop=true;
