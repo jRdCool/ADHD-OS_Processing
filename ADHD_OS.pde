@@ -1,6 +1,6 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground;
 PImage[] icons;
 String timerDisplay;
 
@@ -13,6 +13,7 @@ int[] iconRows,iconColums,taskbarSlots;
 int[][] icoIDstorage;
 
 int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
+int writingFun;
 
 Button start;
 
@@ -48,6 +49,7 @@ void setup(){
   recycleBin.resize(iconSize,iconSize);
   textEditorICO=loadImage("icons/text_edditor.png");
   textEditorICO.resize(iconSize,iconSize);
+  taskListBackground=loadImage("taskListBackground.png");
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
@@ -86,7 +88,7 @@ void setup(){
   //failedToLoad=new Popup(
   
   test = new TextEditor(this);
-  desktopImage=loadImage("ADHDOS_desktop_rev1.png");
+  desktopImage=loadImage("ADHDOS_desktop_rev2.png");
   desktopImage.resize(width,height);
 }
 
@@ -103,7 +105,8 @@ void draw(){
     textAlign(CENTER,CENTER);
     text("Developers:",960,50);
     text("Textures:",960,250);
-    text("concept by:",960,450);
+    text("Concept by:",960,450);
+    text("Skinny Man:",960,650);
     
     textSize(50);
     text("Joseph Duffy",960,130);
@@ -111,6 +114,9 @@ void draw(){
     text("Joseph Duffy",960,330);
     text("Kat B.",960,380);
     text("Kat B.",960,530);
+    text("Developed by Stephen Duffy",960,730);
+    text("Available at:",960,780);
+    link("cbi-games.org");
    
   }
   
@@ -123,6 +129,14 @@ void draw(){
     text("You will have about "+timerMin+" min to complete a series of tasks.",960,100);
     text("During that time you will experience a few 'Interesting' things.",960,200);
     text("Do your best and have fun.",960,300);
+    
+    textSize(30);
+    text("What do find more fun?",480,400);
+    text("Art",130,500);
+    text("Math",1060,500);
+    text("Writing",130,700);
+    text("Gaming",1060,700);
+    
     start.draw();
   }
   
@@ -168,12 +182,17 @@ void draw(){
     //---------Todo list---------//
     fill(255);
     stroke(255);
-    rect(1600,0,320,350);
+    //rect(1500,0,420,350);
+    image(taskListBackground,1500,0);
     stroke(0);
     fill(0);
     textSize(30);
     textAlign(CENTER,BOTTOM);
-    text(timerDisplay,1760,35);
+    text(timerDisplay,1710,35);
+    text("Write a couple sentences",1715,85);
+    text("Complete 3 math problems",1715,125);
+    text("draw a house",1715,168);
+    text("complete 1 level of a game",1715,202);
     
     
     
@@ -195,6 +214,7 @@ void draw(){
     image(recycleBin,iconColums[0],iconRows[0]);
     text("Recycleing Bin",iconColums[0]+(iconSize/2),iconRows[0+1]-10);
     image(textEditorICO,iconColums[0],iconRows[1]);
+    text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
   }
   
   
@@ -225,9 +245,12 @@ void draw(){
       int state=10;
       for(int i=0;i<taskbar.slotsUsed();i++)
       {
-        if(taskbar.getWindow(i)
+        if(taskbar.getWindow(i).readFunScale()<state)
+        {
+          state=taskbar.getWindow(i).readFunScale();
+        }
       }
-      stateCheck(5);
+      stateCheck(state);
     }
   }
   
@@ -249,6 +272,7 @@ void mouseClicked(){
     desktop=true;
     startScreen=false;
     counterStarted=true;
+    //test.setFunScale();
   }
       
   if(desktopIcons[0][1].isMouseOver()&&!test.isOpen())
