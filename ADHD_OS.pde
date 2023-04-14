@@ -336,6 +336,13 @@ void keyPressed(){
     
 }
 
+void keyReleased(){
+    for(int i=0;i<windows.size();i++){
+      windows.get(i).keyReleased();
+    }
+    
+}
+
 //====================================================Mouse Pressed====================================================//
 void mousePressed(){
   for(int i=0;i<windows.size();i++){

@@ -124,6 +124,12 @@ class Window{
   
   void mouseReleasedWindow(int x,int y){}//this method is implmented by sub classes
   
+  final void keyReleased(){
+    keyReleasedWindow(key,keyCode);
+  }
+  
+  void keyReleasedWindow(char key,int keyCode){}
+  
   //moves the window and button on the top of the window when the window is in the proscess of moving
   private void processRelocateWindow(){
     int xdif=mouseX-mousePressedX,ydif=mouseY-mousePressedY;
