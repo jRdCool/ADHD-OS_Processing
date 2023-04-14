@@ -13,7 +13,7 @@ public class skiny_mann extends Window {
     thread("gamePhysicsThread");
     dead=false;
   }
-  boolean reachedEnd=false, checkpointIn3DStage, level_complete, E_pressed, setPlayerPosTo, viewingItemContents, e3DMode,player1_moving_left,player1_moving_right,player1_jumping,dead=false;
+  boolean reachedEnd=false, checkpointIn3DStage, level_complete, E_pressed, setPlayerPosTo, viewingItemContents, e3DMode,player1_moving_left,player1_moving_right,player1_jumping,dead=false,started=false;
   String rootPath, author, displayText;
   JSONArray mainIndex;
   Level level;
@@ -23,6 +23,9 @@ public class skiny_mann extends Window {
   float Scale=1,gravity=0.001;
 
   void drawWindow() {
+    if(!started){
+      dead=false;
+    }
     stageLevelDraw();
     if (dead) {// when  dead
       fill(255, 0, 0);
@@ -49,6 +52,17 @@ public class skiny_mann extends Window {
       textAlign(CENTER, CENTER);
       text(displayText, x+length/2, y+height*0.2);
     }
+    
+    if(!started){
+      textAlign(CENTER,CENTER);
+      textSize(80);
+      fill(255,255,0);
+      text("Skinny Mann",x+length/2,y+80);
+      textSize(50);
+      fill(255);
+      text("Press A / D to move",length/2+x,y+160);
+      text("Press SPACE to jump",x+length/2,y+220);
+    }
   }
 
   void mouseClickedInWindow(int x, int y) {
@@ -57,15 +71,19 @@ public class skiny_mann extends Window {
   void keyPressedWindow(char key, int keyCode) {
     if (keyCode==65) {//if A is pressed
         player1_moving_left=true;
+        started=true;
       }
       if (keyCode==68) {//if D is pressed
         player1_moving_right=true;
+        started=true;
       }
       if (keyCode==32) {//if space is pressed
         player1_jumping=true;
+        started=true;
       }
       if (key=='e'||key=='E') {
         E_pressed=true;
+        started=true;
       }
   }
   
