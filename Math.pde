@@ -5,7 +5,12 @@ class Math extends Window{
   }
   
   
-  
+  void drawWindow()
+  {
+    textSize(40);
+    textAlign(LEFT,CENTER);
+    text("Answer these 3 math problems, and where nessary solve for x",x+15,y+50);
+  }
   
   
   

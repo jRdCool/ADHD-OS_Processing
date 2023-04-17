@@ -143,7 +143,7 @@ void draw(){
     text("Do your best and have fun.",960,300);
     
     textSize(30);
-    text("What do find more fun?",480,400);
+    text("What do find more fun?",580,400);
     text("Art",130,500);
     text("Math",1060,500);
     text("Writing",130,700);
