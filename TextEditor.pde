@@ -1,6 +1,6 @@
 class TextEditor extends Window {
   TextEditor(PApplet parent) {
-    super(parent, 200, 100, 1520, 880, "conTEXTual",1,textEditorICO);
+    super(parent, 200, 100, 1520, 880, "conTEXTual",1,textEditorICO,true);
   }
 
   String documentContent="Test";
@@ -87,7 +87,7 @@ class TextEditor extends Window {
     }
   }
   
-  void onCloseAction(Taskbar tb,int processID)
+  void onCloseAction()
   {
     
     

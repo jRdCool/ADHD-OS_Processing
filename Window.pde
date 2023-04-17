@@ -1,16 +1,17 @@
 //super class that had all the things nessarry for windows on thye desktop
 class Window{
   public float x,y,length,height;
-  public boolean isFocused,isMinimized,mousePressedInWindow,movingWindow,isOpen;
+  public boolean isFocused=true,isMinimized,mousePressedInWindow,movingWindow,isOpen;
   public String title;
   public PImage icon;
   public int PID;
   public int funScale;
+  public boolean miniDraw;
   int mousePressedX,mousePressedY,moveOffsetX,moveOffsetY,funness;
   Button titleBar,minimiseButton,closeButton;
   PApplet parent;
   
-  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID,PImage icon){
+  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID,PImage icon,boolean miniDraw){
     this.x=x;
     this.y=y;
     this.length=length;
@@ -22,6 +23,7 @@ class Window{
     minimiseButton=new Button(parent,x+length-closeButton.lengthX-22,y+1,22,18,"-",230,220).setStrokeWeight(0);
     this.PID=processID;
     this.icon=icon;
+    this.miniDraw=miniDraw;
   }
   
   final void draw(){
@@ -43,7 +45,9 @@ class Window{
       noClip();
       
       closeButton.draw();
-      minimiseButton.draw();
+      if(miniDraw){
+        minimiseButton.draw();
+      }
       
       if(movingWindow){
         processRelocateWindow();
@@ -61,7 +65,7 @@ class Window{
         if(closeButton.isMouseOver()){
           closeButtonPressed(tb);
         }
-        if(minimiseButton.isMouseOver()){
+        if(minimiseButton.isMouseOver()&&miniDraw){
           isMinimized=true;
           isFocused=false;
           return true;
@@ -138,7 +142,7 @@ class Window{
   }
   
   private void closeButtonPressed(Taskbar tb){
-    onCloseAction(tb,PID);
+    onCloseAction();
     setActivity(false);
     windows.remove(this);
     int slot=tb.slotLookUp(PID);
@@ -149,7 +153,7 @@ class Window{
     //remove window from window list
   }
   //called when the close window button is pressed
-  void onCloseAction(Taskbar tb,int processID){}//this method is implmented by sub classes
+  void onCloseAction(){}//this method is implmented by sub classes
   
   void tick(){};//this method is implmented by sub classes
   

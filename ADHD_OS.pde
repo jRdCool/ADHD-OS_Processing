@@ -4,7 +4,7 @@ PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground;
 PImage[] icons;
 String timerDisplay;
 
-boolean[] popupDraw;
+boolean[] popupDraw=new boolean[70];;
 
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
@@ -19,11 +19,12 @@ Button start,websightLink;
 
 Popup failedToLoad;
 ArrayList<Window> windows=new ArrayList<>();
-Window[] popups=new Popup[9];
-Window[] sugestions=new Popup[20];
+Popup[] popups=new Popup[9];
+Popup[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
 Button[] taskbarButtons=new Button[numTaskbarSlots];
 Taskbar taskbar;
+
 
 
 void settings(){
@@ -86,8 +87,17 @@ void setup(){
     }
   }
   
-  //failedToLoad=new Popup(
+  failedToLoad=new Popup(this,9,600,200,"Program Failed to load", "The program failed to load", "This is most likly because it is fake");
   
+  popups[0]=new Popup(this,0,300,300,"test","this is a test");
+  popups[1]=new Popup(this,1,300,300,"test","this is a test");
+  popups[2]=new Popup(this,2,300,300,"test","this is a test");
+  popups[3]=new Popup(this,3,300,300,"test","this is a test");
+  popups[4]=new Popup(this,4,300,300,"test","this is a test");
+  popups[5]=new Popup(this,5,300,300,"test","this is a test");
+  popups[6]=new Popup(this,6,300,300,"test","this is a test");
+  popups[7]=new Popup(this,7,300,300,"test","this is a test");
+  popups[8]=new Popup(this,8,300,300,"test","this is a test");
   //test = 
   desktopImage=loadImage("ADHDOS_desktop_rev2.png");
   desktopImage.resize(width,height);
@@ -219,9 +229,17 @@ void draw(){
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
     
     image(ico1,iconColums[0],iconRows[3]);
+    text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[2+1]-10);
     
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
+    }
+    for(int i=0;i<9;i++)
+    {
+      if(popupDraw[i])
+      {
+        popups[i].draw();
+      }
     }
   }
   
@@ -258,6 +276,10 @@ void draw(){
           state=taskbar.getWindow(i).readFunScale();
         }
       }
+      if(taskbar.slotsUsed()==0)
+      {
+        state=5;
+      }
       stateCheck(state);
     }
   }
@@ -287,11 +309,18 @@ void mouseClicked(){
       }
     }
     taskbar.mouseClicked();
+    for(int i=0;i<9;i++)
+    {
+      if(popupDraw[i])
+      {
+        popups[i].mouseClicked(taskbar);
+      }
+    }
     
     if(!onWindow){
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
-        println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
+        //println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
         Window texteditor = new TextEditor(this);
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
@@ -384,6 +413,7 @@ void stateCheck(int processType){//1=boring,10=fun
   if(randomNumber<chance)
   {
     //println("pop up spawned");
+    popupDraw[0]=true;
   }
   
   //time track
