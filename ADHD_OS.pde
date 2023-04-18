@@ -1,6 +1,6 @@
-int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
+int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO;
 PImage[] icons;
 String timerDisplay;
 
@@ -51,6 +51,11 @@ void setup(){
   textEditorICO=loadImage("icons/text_edditor.png");
   textEditorICO.resize(iconSize,iconSize);
   taskListBackground=loadImage("taskListBackground.png");
+  mathProblemsICO=loadImage("icons/math_problems.png");
+  mathProblemsICO.resize(iconSize,iconSize);
+  imageEdditorICO=loadImage("icons/image_edditor.jpg");
+  imageEdditorICO.resize(iconSize,iconSize);
+  
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
@@ -227,17 +232,26 @@ void draw(){
     image(textEditorICO,iconColums[0],iconRows[1]);
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
     
-    image(ico1,iconColums[0],iconRows[3]);
+    image(mathProblemsICO,iconColums[0],iconRows[3]);
     text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[3+1]-10);
+    image(imageEdditorICO,iconColums[1],iconRows[0]);
+    text("Artist",iconColums[1]+(iconSize/2),iconRows[0+1]-10);
     
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
     }
-    for(int i=0;i<9;i++)
+    for(int i=0;i<70;i++)
     {
       if(popupDraw[i])
       {
-        popups[i].draw();
+        if(i<9)
+        {
+          popups[i].draw();
+        }
+        if(i==9)
+        {
+          failedToLoad.draw();
+        }
       }
     }
   }
@@ -315,8 +329,13 @@ void mouseClicked(){
         popups[i].mouseClicked(taskbar);
       }
     }
+    failedToLoad.mouseClicked(taskbar);
     
     if(!onWindow){
+      if(desktopIcons[0][0].isMouseOver()&&!isWindowAllreadyOpen(1))
+      {
+        popupDraw[9]=true;
+      }
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
         //println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
@@ -329,6 +348,12 @@ void mouseClicked(){
         Window mathProblems=new Math(this);
         int slot=taskbar.addProcess(mathProblems.processID(),mathProblems);
         windows.add(mathProblems);
+      }
+      if(desktopIcons[1][0].isMouseOver()&&!isWindowAllreadyOpen(4))
+      {
+        Window imageditor=new Painter(this);
+        int slot=taskbar.addProcess(imageditor.processID(),imageditor);
+        windows.add(imageditor);
       }
     } 
   }

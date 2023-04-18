@@ -78,6 +78,7 @@ class Popup extends Window{
   
   void drawWindow()
   {
+    textAlign(LEFT,CENTER);
     if(image != null)
     {
       image(image,x+10,y+10);
@@ -100,7 +101,7 @@ class Popup extends Window{
   void onCloseAction()
   {
     popupDraw[PN]=false;
-    println("test");
+    //println("test");
   }
   
   

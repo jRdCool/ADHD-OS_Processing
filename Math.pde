@@ -1,7 +1,7 @@
 class Math extends Window{
   Math(PApplet parent)
   {
-    super(parent, 200, 100, 1520, 880, "Mo-Problems",3,ico1,true);
+    super(parent, 200, 100, 1520, 880, "Mo-Problems",3,mathProblemsICO,true);
     
     prob1=(int)random(0,problems.length);
     do
