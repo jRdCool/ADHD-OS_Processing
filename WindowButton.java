@@ -43,6 +43,6 @@ class WindowButton extends Button{
   }
   
   public boolean isMouseOver() {
-    return window.parent.mouseX>=windowX+window.x&&window.parent.mouseX<=windowX+window.x+lengthX&&window.parent.mouseY>=window.y&&window.parent.mouseY<=window.y+lengthY;
+    return window.parent.mouseX>=windowX+window.x&&window.parent.mouseX<=windowX+window.x+lengthX&&window.parent.mouseY>=window.y+windowY&&window.parent.mouseY<=window.y+windowY+lengthY;
   }
 }
