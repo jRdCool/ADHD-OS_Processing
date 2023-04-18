@@ -51,6 +51,10 @@ char getCh(int mode, char leter) {
       return leter;
     }
   }
+  if (mode==6) {//mode 2 ip mode(numbers and .)
+    if (leter=='1'||leter=='2'||leter=='3'||leter=='4'||leter=='5'||leter=='6'||leter=='7'||leter=='8'||leter=='9'||leter=='0'||leter=='.'||leter=='-')
+      return leter;
+  }
 
   return 0;
 }

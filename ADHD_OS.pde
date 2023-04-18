@@ -1,5 +1,5 @@
 int ADHDMode = 0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false;
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground;
 PImage[] icons;
 String timerDisplay;
@@ -205,20 +205,19 @@ void draw(){
     text("Complete 3 math problems",1715,125);
     text("draw a house",1715,168);
     text("complete 1 level of a game",1715,202);
+    checkBox(1515,60,typingComplete);
+    checkBox(1515,100,mathComplete);
+    checkBox(1515,143,drawingComplete);
+    checkBox(1515,177,levelComplete);
     
     
     
     
     
-    for(int i=0;i<iconRows.length; i++)
-    {
-      for(int j=0; j<iconColums.length; j++)
-      {
-        //if(initilizing){icoIDstorage[i][j]=(int)random(0,3);}
-        //image(icons[icoIDstorage[i][j]],iconColums[i],iconRows[j]);
-        //desktopIcons[j][i].draw();
-      }
-    }
+    
+    
+    
+    //----------icons and lables------------//
     fill(0);
     stroke(0);
     textSize(18);
@@ -229,7 +228,7 @@ void draw(){
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
     
     image(ico1,iconColums[0],iconRows[3]);
-    text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[2+1]-10);
+    text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[3+1]-10);
     
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
@@ -443,4 +442,27 @@ boolean isWindowAllreadyOpen(int PID){
     }
   }
   return false;
+}
+
+void checkBox(float x, float y, boolean mark)
+{
+  stroke(0);
+  noFill();
+  strokeWeight(2);
+  square(x,y,10);
+  fill(0);
+  stroke(#FF0000);
+  strokeWeight(3);
+  if(mark)
+  {
+    line(x,y+2,x+4,y+6);
+    line(x+4,y+6,x+11,y-4);
+  }
+  
+  
+  
+  
+  
+  
+  
 }
