@@ -41,7 +41,7 @@ class Painter extends Window
   
   int selectedColor;
   boolean drawing=false,eraseing=false;
-  int brushType=0;
+  int brushType=1;
   
   //===========================================================total of 1,155,198 pixel in the painting===========================================================//
   
@@ -63,6 +63,7 @@ class Painter extends Window
         colors[i][j].draw();
       }
     }
+    //println(drawing);
     if(drawing)
     {
       tick(mouseX-(int)x-1,mouseY-(int)y-18,brushType,eraseing);
@@ -77,33 +78,41 @@ class Painter extends Window
     
   }
   
+  
+  
+  //============================================mouse clicked============================================//
   void mouseClickedInWindow(int x,int y)
   {
     //----------------row 0---------------//
     if(colors[0][0].isMouseOver())
     {
-      colors[0][0].setColor(red,0);
+      colors[0][0].setColor(reD,0);
       natColors(0,0);
+      selectedColor=red;
     }
     if(colors[0][1].isMouseOver())
     {
       colors[0][1].setColor(orange,0);
       natColors(0,1);
+      selectedColor=orange;
     }
     if(colors[0][2].isMouseOver())
     {
       colors[0][2].setColor(yellow,0);
       natColors(0,2);
+      selectedColor=yellow;
     }
     if(colors[0][3].isMouseOver())
     {
       colors[0][3].setColor(green,0);
       natColors(0,3);
+      selectedColor=green;
     }
     if(colors[0][4].isMouseOver())
     {
       colors[0][4].setColor(lime,0);
       natColors(0,4);
+      selectedColor=lime;
     }
     
     //----------------row 1---------------//
@@ -111,26 +120,31 @@ class Painter extends Window
     {
       colors[1][0].setColor(lightBlue,0);
       natColors(1,0);
+      selectedColor=lightBlue;
     }
     if(colors[1][1].isMouseOver())
     {
       colors[1][1].setColor(blue,0);
       natColors(1,1);
+      selectedColor=blue;
     }
     if(colors[1][2].isMouseOver())
     {
       colors[1][2].setColor(purple,0);
       natColors(1,2);
+      selectedColor=purple;
     }
     if(colors[1][3].isMouseOver())
     {
       colors[1][3].setColor(pink,0);
       natColors(1,3);
+      selectedColor=pink;
     }
     if(colors[1][4].isMouseOver())
     {
       colors[1][4].setColor(magenta,0);
       natColors(1,4);
+      selectedColor=magenta;
     }
     
     //----------------row 2---------------//
@@ -138,26 +152,31 @@ class Painter extends Window
     {
       colors[2][0].setColor(white,0);
       natColors(2,0);
+      selectedColor=white;
     }
     if(colors[2][1].isMouseOver())
     {
       colors[2][1].setColor(lightGray,0);
       natColors(2,1);
+      selectedColor=lightGray;
     }
     if(colors[2][2].isMouseOver())
     {
       colors[2][2].setColor(gray,0);
       natColors(2,2);
+      selectedColor=gray;
     }
     if(colors[2][3].isMouseOver())
     {
       colors[2][3].setColor(black,0);
       natColors(2,3);
+      selectedColor=black;
     }
     if(colors[2][4].isMouseOver())
     {
       colors[2][4].setColor(brown,0);
       natColors(2,4);
+      selectedColor=brown;
     }
   }
   
@@ -204,6 +223,7 @@ class Painter extends Window
   
   private void tick(int x, int y,int brush,boolean eraser)
   {
+    println("running tick");
     canvas.loadPixels();
     int pixel = x * y;
     int sColor;
@@ -215,10 +235,11 @@ class Painter extends Window
     {
       sColor=selectedColor;
     }
-    
+    println(sColor);
     if(brush==0)//single pixel brush
     {
-        canvas.pixels[pixel]=sColor ;
+      println(pixel);
+      canvas.pixels[pixel]=sColor;
     }
     if(brush==1)//5x5 pixel brush
     {
@@ -227,28 +248,34 @@ class Painter extends Window
         int locX=x+i;
         if(locX>=0&&locX<=1518)
         {
-          for(int j=-2;j<=2;j++)\
+          for(int j=-2;j<=2;j++)
           {
             int locY=y+j;
             if(locY>=0&&locY<=761)
             {
-              
+              pixel=locX+(locY*1518);
+              canvas.pixels[pixel]=sColor;
             }
           }
         }
+      }
           
     }
     if(brush==2)//11x11 pixel brush
     {
       
     }
-    if(brush==3)//Fill tool
+    if(brush==3)
+    {
+      
+    }
+    if(brush==4)//Fill tool
     {
       
     }
     
     
-    
+    canvas.updatePixels();
   }
   
 }
