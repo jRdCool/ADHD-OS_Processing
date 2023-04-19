@@ -6,7 +6,7 @@ class Painter extends Window
     
     int size=15;
     int spaceing=size+10;
-    float startX=700,startY=790;
+    float startX=700,startY=800;
     
     for(int i=0;i<3;i++)
     {
@@ -33,7 +33,18 @@ class Painter extends Window
     colors[2][2].setColor(gray,170);
     colors[2][3].setColor(black,170);
     colors[2][4].setColor(brown,170);
+    
+    for(int i=0;i<3;i++)
+    {
+      tools[i]=new WindowButton(this,toolG1+(toolSpace*i),toolY,toolSize,toolSize);
+    }
+    for(int i=3;i<5;i++)
+    {
+      tools[i]=new WindowButton(this,toolG2+(toolSpace*i),toolY,toolSize,toolSize);
+    }
   }
+  
+  int toolG1=200,toolG2=800,toolY=800,toolSize=60,toolSpace=toolSize+30;
   
   color reD=#FF0000;
   int red=#FF0000,orange=#FF8800,yellow=#FFFF00,green=#00A100,lime=#00FF00,lightBlue=#00EAFF,blue=#0000FF,purple=#8A00D4;
@@ -47,6 +58,7 @@ class Painter extends Window
   
   
   WindowButton[][] colors=new WindowButton[3][5];
+  WindowButton[] tools=new WindowButton[5];
   
   
   void drawWindow()
@@ -63,10 +75,15 @@ class Painter extends Window
         colors[i][j].draw();
       }
     }
+    
+    for(int i=0;i<5;i++)
+    {
+      tools[i].draw();
+    }
     //println(drawing);
     if(drawing)
     {
-      tick(mouseX-(int)x-1,mouseY-(int)y-18,brushType,eraseing);
+      tick(mouseX-(int)x-1,mouseY-(int)y-19,brushType,eraseing);
     }
     
     
@@ -246,20 +263,20 @@ class Painter extends Window
       for(int i=-2;i<=2;i++)
       {
         int locX=x+i;
-        if(locX>=0&&locX<=1518)
+        if(locX>=0&&locX<1518)
         {
           for(int j=-2;j<=2;j++)
           {
             int locY=y+j;
-            if(locY>=0&&locY<=761)
+            if(locY>=0&&locY<761)
             {
+              println(locX+" "+locY);
               pixel=locX+(locY*1518);
               canvas.pixels[pixel]=sColor;
             }
           }
         }
       }
-          
     }
     if(brush==2)//11x11 pixel brush
     {
