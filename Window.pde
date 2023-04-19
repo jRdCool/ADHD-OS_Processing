@@ -46,7 +46,7 @@ class Window{
       
       closeButton.draw();
       if(miniDraw){
-        minimiseButton.draw();
+        minimiseButton.draw(); 
       }
       
       if(movingWindow){

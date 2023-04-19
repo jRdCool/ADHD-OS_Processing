@@ -35,10 +35,16 @@ class Painter extends Window
     colors[2][4].setColor(brown,170);
   }
   
+  color reD=#FF0000;
   int red=#FF0000,orange=#FF8800,yellow=#FFFF00,green=#00A100,lime=#00FF00,lightBlue=#00EAFF,blue=#0000FF,purple=#8A00D4;
   int pink=#F959FF,magenta=#FF00FF,white=#FFFFFF,lightGray=#AAAAAA,gray=#555555,black=#000000,brown=#472A09;
   
   int selectedColor;
+  boolean drawing=false,eraseing=false;
+  int brushType=0;
+  
+  //===========================================================total of 1,155,198 pixel in the painting===========================================================//
+  
   
   WindowButton[][] colors=new WindowButton[3][5];
   
@@ -57,6 +63,17 @@ class Painter extends Window
         colors[i][j].draw();
       }
     }
+    if(drawing)
+    {
+      tick(mouseX-(int)x-1,mouseY-(int)y-18,brushType,eraseing);
+    }
+    
+    
+    
+    
+    
+    image(canvas,x+1,y+19);
+    
     
   }
   
@@ -145,7 +162,20 @@ class Painter extends Window
   }
   
   
+  void mousePressedWindow(int x,int y)
+  {
+    if((x>1&&y>19)&&(x<1520&&y<779))
+    {
+      drawing=true;
+    }
+    
+  }
   
+  
+  void mouseReleasedWindow(int x,int y)
+  {
+    drawing=false;
+  }
   
   
   
@@ -169,6 +199,56 @@ class Painter extends Window
       if(!(col==2&&row==2)){colors[2][2].setColor(gray,170);}
       if(!(col==3&&row==2)){colors[2][3].setColor(black,170);}
       if(!(col==4&&row==2)){colors[2][4].setColor(brown,170);}
+  }
+  
+  
+  private void tick(int x, int y,int brush,boolean eraser)
+  {
+    canvas.loadPixels();
+    int pixel = x * y;
+    int sColor;
+    if(eraser)
+    {
+      sColor=#FFFFFF;
+    }
+    else
+    {
+      sColor=selectedColor;
+    }
+    
+    if(brush==0)//single pixel brush
+    {
+        canvas.pixels[pixel]=sColor ;
+    }
+    if(brush==1)//5x5 pixel brush
+    {
+      for(int i=-2;i<=2;i++)
+      {
+        int locX=x+i;
+        if(locX>=0&&locX<=1518)
+        {
+          for(int j=-2;j<=2;j++)\
+          {
+            int locY=y+j;
+            if(locY>=0&&locY<=761)
+            {
+              
+            }
+          }
+        }
+          
+    }
+    if(brush==2)//11x11 pixel brush
+    {
+      
+    }
+    if(brush==3)//Fill tool
+    {
+      
+    }
+    
+    
+    
   }
   
 }

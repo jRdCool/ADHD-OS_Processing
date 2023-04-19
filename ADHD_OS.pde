@@ -3,6 +3,7 @@ boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initiliz
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO;
 PImage[] icons;
 String timerDisplay;
+PImage canvas=createImage(1518,761,RGB);
 
 boolean[] popupDraw=new boolean[70];;
 
@@ -56,6 +57,12 @@ void setup(){
   imageEdditorICO=loadImage("icons/image_edditor.jpg");
   imageEdditorICO.resize(iconSize,iconSize);
   
+  canvas.loadPixels();
+  for(int i=0;i<canvas.pixels.length;i++)
+  {
+    canvas.pixels[i]= #FFFFFF;
+  }
+  canvas.updatePixels();
   
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
@@ -485,6 +492,7 @@ void checkBox(float x, float y, boolean mark)
   }
   
   
+    
   
   
   
