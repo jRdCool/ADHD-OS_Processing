@@ -3,6 +3,8 @@ class Painter extends Window
   Painter(PApplet parent)
   {
     super (parent, 200, 100, 1520, 880, "Artist",4,imageEdditorICO,true);
+    thread("onTick");
+    
     
     int size=15;
     int spaceing=size+10;
@@ -36,12 +38,13 @@ class Painter extends Window
     
     for(int i=0;i<3;i++)
     {
-      tools[i]=new WindowButton(this,toolG1+(toolSpace*i),toolY,toolSize,toolSize);
+      tools[i]=new WindowButton(this,toolG1+(toolSpace*i),toolY,toolSize,toolSize,255,170);
     }
     for(int i=3;i<5;i++)
     {
-      tools[i]=new WindowButton(this,toolG2+(toolSpace*i),toolY,toolSize,toolSize);
+      tools[i]=new WindowButton(this,toolG2+(toolSpace*i),toolY,toolSize,toolSize,255,170);
     }
+    tools[brushType].setColor(255,0);
   }
   
   int toolG1=200,toolG2=800,toolY=800,toolSize=60,toolSpace=toolSize+30;
@@ -63,6 +66,7 @@ class Painter extends Window
   
   void drawWindow()
   {
+    
     stroke(0);
     strokeWeight(2);
     fill(#F7FA57);
@@ -80,11 +84,12 @@ class Painter extends Window
     {
       tools[i].draw();
     }
+    image(smallBrush,x+toolG1+0*toolSpace,y+toolY);
+    image(mediumBrush,x+toolG1+1*toolSpace,y+toolY);
+    image(largeBrush,x+toolG1+2*toolSpace,y+toolY);
+    image(fillTool,x+toolG2+3*toolSpace,y+toolY);
+    image(eraserICO,x+toolG2+4*toolSpace,y+toolY);
     //println(drawing);
-    if(drawing)
-    {
-      tick(mouseX-(int)x-1,mouseY-(int)y-19,brushType,eraseing);
-    }
     
     
     
@@ -195,6 +200,63 @@ class Painter extends Window
       natColors(2,4);
       selectedColor=brown;
     }
+    
+    
+    for(int i=0;i<4;i++)
+    {
+      if(tools[i].isMouseOver())
+      {
+        brushType=i;
+      }
+    }
+    if(tools[0].isMouseOver())
+    {
+      tools[0].setColor(255,0);
+      tools[1].setColor(255,170);
+      tools[2].setColor(255,170);
+      tools[3].setColor(255,170);
+    }
+    if(tools[1].isMouseOver())
+    {
+      tools[0].setColor(255,170);
+      tools[1].setColor(255,0);
+      tools[2].setColor(255,170);
+      tools[3].setColor(255,170);
+    }
+    if(tools[2].isMouseOver())
+    {
+      tools[0].setColor(255,170);
+      tools[1].setColor(255,170);
+      tools[2].setColor(255,0);
+      tools[3].setColor(255,170);
+    }
+    if(tools[3].isMouseOver())
+    {
+      tools[0].setColor(255,170);
+      tools[1].setColor(255,170);
+      tools[2].setColor(255,170);
+      tools[3].setColor(255,0);
+      eraseing=false;
+      tools[4].setColor(255,170);
+    }
+    if(tools[4].isMouseOver()&&brushType!=3)
+    {
+      if(eraseing)
+      {
+        eraseing=false;
+        tools[4].setColor(255,170);
+      }
+      else
+      {
+        eraseing=true;
+        tools[4].setColor(255,0);
+      }
+    }
+    
+    
+    
+    
+    
   }
   
   
@@ -238,61 +300,102 @@ class Painter extends Window
   }
   
   
-  private void tick(int x, int y,int brush,boolean eraser)
+  public void tick(int x, int y)
   {
-    println("running tick");
-    canvas.loadPixels();
-    int pixel = x * y;
-    int sColor;
-    if(eraser)
+    if(drawing)
     {
-      sColor=#FFFFFF;
-    }
-    else
-    {
-      sColor=selectedColor;
-    }
-    println(sColor);
-    if(brush==0)//single pixel brush
-    {
-      println(pixel);
-      canvas.pixels[pixel]=sColor;
-    }
-    if(brush==1)//5x5 pixel brush
-    {
-      for(int i=-2;i<=2;i++)
+      //println("running tick");
+      canvas.loadPixels();
+      int relX=x-(int)(this.x)-1;
+      int relY=y-(int)(this.y)-19;
+      int sColor;
+      if(eraseing)
       {
-        int locX=x+i;
-        if(locX>=0&&locX<1518)
+        sColor=#FFFFFF;
+      }
+      else
+      {
+        sColor=selectedColor;
+      }
+      //println(sColor);
+      
+      if(brushType==0)//5x5 pixel brush
+      {
+        for(int i=-2;i<=2;i++)
         {
-          for(int j=-2;j<=2;j++)
+          int locX=relX+i;
+          if(locX>=0&&locX<1518)
           {
-            int locY=y+j;
-            if(locY>=0&&locY<761)
+            for(int j=-2;j<=2;j++)
             {
-              println(locX+" "+locY);
-              pixel=locX+(locY*1518);
-              canvas.pixels[pixel]=sColor;
+              int locY=relY+j;
+              if(locY>=0&&locY<761)
+              {
+                //println(locX+" "+locY);
+                int pixel=locX+(locY*1518);
+                canvas.pixels[pixel]=sColor;
+                pixelsEddited++;
+              }
             }
           }
         }
       }
-    }
-    if(brush==2)//11x11 pixel brush
-    {
-      
-    }
-    if(brush==3)
-    {
-      
-    }
-    if(brush==4)//Fill tool
-    {
-      
-    }
+      if(brushType==1)//11x11 pixel brush
+      {
+        for(int i=-5;i<=5;i++)
+        {
+          int locX=relX+i;
+          if(locX>=0&&locX<1518)
+          {
+            for(int j=-5;j<=5;j++)
+            {
+              int locY=relY+j;
+              if(locY>=0&&locY<761)
+              {
+                //println(locX+" "+locY);
+                int pixel=locX+(locY*1518);
+                canvas.pixels[pixel]=sColor;
+                pixelsEddited++;
+              }
+            }
+          }
+        }
+      }
+      if(brushType==2)//21x21 pixel brush
+      {
+        for(int i=-10;i<=10;i++)
+        {
+          int locX=relX+i;
+          if(locX>=0&&locX<1518)
+          {
+            for(int j=-10;j<=10;j++)
+            {
+              int locY=relY+j;
+              if(locY>=0&&locY<761)
+              {
+                //println(locX+" "+locY);
+                int pixel=locX+(locY*1518);
+                canvas.pixels[pixel]=sColor;
+                pixelsEddited++;
+              }
+            }
+          }
+        }
+      }
+      if(brushType==3)//Fill tool
+      {
+        pixelsEddited++;
+      }
     
-    
-    canvas.updatePixels();
+      
+      canvas.updatePixels();
+    }
   }
+  
+  void onCloseAction()
+  {
+    canvas.save("image.png");
+  }
+  
   
 }

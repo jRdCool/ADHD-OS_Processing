@@ -1,6 +1,6 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool;
 PImage[] icons;
 String timerDisplay;
 PImage canvas=createImage(1518,761,RGB);
@@ -10,11 +10,13 @@ boolean[] popupDraw=new boolean[70];;
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
 
+
 int[] iconRows,iconColums,taskbarSlots;
 int[][] icoIDstorage;
 
 int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 int writingFun;
+int pixelsEddited=0;
 
 Button start,websightLink;
 
@@ -56,6 +58,11 @@ void setup(){
   mathProblemsICO.resize(iconSize,iconSize);
   imageEdditorICO=loadImage("icons/image_edditor.jpg");
   imageEdditorICO.resize(iconSize,iconSize);
+  smallBrush=loadImage("data/small_brush.png");
+  mediumBrush=loadImage("data/medium_brush.png");
+  largeBrush=loadImage("data/large_brush.png");
+  fillTool=loadImage("data/fill_tool.png");
+  eraserICO=loadImage("data/eraser.png");
   
   canvas.loadPixels();
   for(int i=0;i<canvas.pixels.length;i++)
@@ -139,7 +146,7 @@ void draw(){
     text("Kat B.",960,530);
     text("Developed by Stephen Duffy",960,730);
     text("Available at:",960,780);
-    //websightLink.draw();
+    fill(#0000FF);
     text("cbi-games.org",960,830);
    
   }
@@ -261,6 +268,10 @@ void draw(){
         }
       }
     }
+  }
+  if(pixelsEddited>600000)
+  {
+    drawingComplete=true;
   }
   
 
@@ -491,11 +502,15 @@ void checkBox(float x, float y, boolean mark)
     line(x+4,y+6,x+11,y-4);
   }
   
-  
-    
-  
-  
-  
-  
-  
 }
+
+public void onTick()
+  {
+    while(true)
+    {
+      random(0,124);
+      for(int i=0;i<windows.size();i++){
+        windows.get(i).tick(mouseX,mouseY);
+      }
+    }
+  }

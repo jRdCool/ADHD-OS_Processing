@@ -155,7 +155,7 @@ class Window{
   //called when the close window button is pressed
   void onCloseAction(){}//this method is implmented by sub classes
   
-  void tick(){};//this method is implmented by sub classes
+  void tick(int x,int y){};//this method is implmented by sub classes
   
   int processID(){
     return PID;
