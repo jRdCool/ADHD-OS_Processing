@@ -92,7 +92,10 @@ class Painter extends Window
     //println(drawing);
     
     
-    
+    if(drawing)
+    {
+      pixelsEddited++;
+    }
     
     
     image(canvas,x+1,y+19);
@@ -334,7 +337,7 @@ class Painter extends Window
                 //println(locX+" "+locY);
                 int pixel=locX+(locY*1518);
                 canvas.pixels[pixel]=sColor;
-                pixelsEddited++;
+                
               }
             }
           }
@@ -355,7 +358,7 @@ class Painter extends Window
                 //println(locX+" "+locY);
                 int pixel=locX+(locY*1518);
                 canvas.pixels[pixel]=sColor;
-                pixelsEddited++;
+                
               }
             }
           }
@@ -376,7 +379,7 @@ class Painter extends Window
                 //println(locX+" "+locY);
                 int pixel=locX+(locY*1518);
                 canvas.pixels[pixel]=sColor;
-                pixelsEddited++;
+                
               }
             }
           }
@@ -384,17 +387,19 @@ class Painter extends Window
       }
       if(brushType==3)//Fill tool
       {
-        pixelsEddited++;
+        
       }
     
       
       canvas.updatePixels();
     }
+    
   }
   
   void onCloseAction()
   {
     canvas.save("image.png");
+    println(pixelsEddited);
   }
   
   

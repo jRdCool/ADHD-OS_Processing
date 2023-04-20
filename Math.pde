@@ -158,9 +158,5 @@ class Math extends Window{
     {
       answers[answrSelected]=processKeyboardInput(answers[answrSelected],key,keyCode,6,ansCursorPos[answrSelected]);
     }
-  }
-  
-  
-  
-  
+  }  
 }
