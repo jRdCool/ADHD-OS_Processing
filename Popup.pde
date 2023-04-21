@@ -74,7 +74,8 @@ class Popup extends Window{
   PImage image;
   String body,bodyA,bodyB,bodyC;
   int PN;
-  WindowButton[] addedButtons=new WindowButton[4]; 
+  WindowButton[] addedButtons=new WindowButton[4];
+  int rollPos=0;
   
   
   void drawWindow()
@@ -82,7 +83,7 @@ class Popup extends Window{
     textAlign(LEFT,CENTER);
     if(image != null)
     {
-      image(image,x+10,y+30);
+      image(image,x+20,y+30);
     }
     text(body,x+10,y+200);
     if(bodyA != null)
@@ -96,6 +97,16 @@ class Popup extends Window{
     if(bodyC != null)
     {
       text(bodyC,x+10,y+350);
+    }
+    if(PN==3)
+    {
+      image(rickRoll[rollPos],x+20,y+30);
+      if(frame%2==0)
+      {
+        rollPos++;
+        if(rollPos>102)
+        {rollPos=0;}
+      }
     }
   }
   

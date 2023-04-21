@@ -4,6 +4,7 @@ PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,m
 PImage[] icons;
 String timerDisplay;
 PImage canvas=createImage(1518,761,RGB);
+PImage[] rickRoll=new PImage[103];
 
 boolean[] popupDraw=new boolean[70];;
 
@@ -65,6 +66,22 @@ void setup(){
   eraserICO=loadImage("data/eraser.png");
   isThisHelping=loadImage("data/is_this_helping.png");
   beesStuff=loadImage("data/honey_comb.png");
+  for(int i=0;i<103;i++)
+  {
+    if(i<9)
+    {
+      rickRoll[i]=loadImage("/data/rr/000"+(i+1)+".png");
+    }
+    else if(i<99)
+    {
+      rickRoll[i]=loadImage("/data/rr/00"+(i+1)+".png");
+    }
+    else
+    {
+      rickRoll[i]=loadImage("/data/rr/0"+(i+1)+".png");
+    }
+    //rickRoll[i].resize(260,150);
+  }
   
   
   canvas.loadPixels();
@@ -113,8 +130,8 @@ void setup(){
   
   popups[0]=new Popup(this,0,600,300,"test",isThisHelping,"this is a test","is this helping?");
   popups[1]=new Popup(this,1,300,300,"test",beesStuff,"According to all known laws of aviation,","there is no way a bee","should be able to fly.");
-  popups[2]=new Popup(this,2,300,300,"test","this is a test");
-  popups[3]=new Popup(this,3,300,300,"test","this is a test");
+  popups[2]=new Popup(this,2,400,500,"test","this is a test");
+  popups[3]=new Popup(this,3,800,200,"Rick Roll","Get Rick Rolled","LOL :P");
   popups[4]=new Popup(this,4,300,300,"test","this is a test");
   popups[5]=new Popup(this,5,300,300,"test","this is a test");
   popups[6]=new Popup(this,6,300,300,"test","this is a test");
@@ -319,8 +336,6 @@ void draw(){
   }
   
   
-
-  
 }
 
 
@@ -457,7 +472,8 @@ void stateCheck(int processType){//1=boring,10=fun
   //println(randomNumber);
   if(randomNumber<chance)
   {
-    int popDraw=(int)random(0,2);
+    int popDraw=(int)random(0,4);
+    //int popDraw=3;
     //println("pop up spawned");
     popupDraw[popDraw]=true;
   }
