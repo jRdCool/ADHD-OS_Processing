@@ -74,6 +74,7 @@ class Popup extends Window{
   PImage image;
   String body,bodyA,bodyB,bodyC;
   int PN;
+  WindowButton[] addedButtons=new WindowButton[4]; 
   
   
   void drawWindow()
@@ -81,7 +82,7 @@ class Popup extends Window{
     textAlign(LEFT,CENTER);
     if(image != null)
     {
-      image(image,x+10,y+10);
+      image(image,x+10,y+30);
     }
     text(body,x+10,y+200);
     if(bodyA != null)
@@ -105,6 +106,9 @@ class Popup extends Window{
   }
   
   
-  
+  void addButton(int x,int y,int w,int h,String text,int button)
+  {
+    
+  }
   
 }

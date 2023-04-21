@@ -1,6 +1,6 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff;
 PImage[] icons;
 String timerDisplay;
 PImage canvas=createImage(1518,761,RGB);
@@ -63,6 +63,9 @@ void setup(){
   largeBrush=loadImage("data/large_brush.png");
   fillTool=loadImage("data/fill_tool.png");
   eraserICO=loadImage("data/eraser.png");
+  isThisHelping=loadImage("data/is_this_helping.png");
+  beesStuff=loadImage("data/honey_comb.png");
+  
   
   canvas.loadPixels();
   for(int i=0;i<canvas.pixels.length;i++)
@@ -108,8 +111,8 @@ void setup(){
   
   failedToLoad=new Popup(this,9,600,200,"Program Failed to load", "The program failed to load", "This is most likly because it is fake");
   
-  popups[0]=new Popup(this,0,300,300,"test","this is a test");
-  popups[1]=new Popup(this,1,300,300,"test","this is a test");
+  popups[0]=new Popup(this,0,600,300,"test",isThisHelping,"this is a test","is this helping?");
+  popups[1]=new Popup(this,1,300,300,"test",beesStuff,"According to all known laws of aviation,","there is no way a bee","should be able to fly.");
   popups[2]=new Popup(this,2,300,300,"test","this is a test");
   popups[3]=new Popup(this,3,300,300,"test","this is a test");
   popups[4]=new Popup(this,4,300,300,"test","this is a test");
@@ -454,8 +457,9 @@ void stateCheck(int processType){//1=boring,10=fun
   //println(randomNumber);
   if(randomNumber<chance)
   {
+    int popDraw=(int)random(0,2);
     //println("pop up spawned");
-    popupDraw[0]=true;
+    popupDraw[popDraw]=true;
   }
   
   //time track
