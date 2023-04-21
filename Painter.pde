@@ -82,7 +82,10 @@ class Painter extends Window
     
     for(int i=0;i<5;i++)
     {
-      tools[i].draw();
+      if(i!=3)
+      {
+        tools[i].draw();
+      }
     }
     image(smallBrush,x+toolG1+0*toolSpace,y+toolY);
     image(mediumBrush,x+toolG1+1*toolSpace,y+toolY);
@@ -233,7 +236,7 @@ class Painter extends Window
       tools[2].setColor(255,0);
       tools[3].setColor(255,170);
     }
-    if(tools[3].isMouseOver())
+    /*if(tools[3].isMouseOver())
     {
       tools[0].setColor(255,170);
       tools[1].setColor(255,170);
@@ -241,7 +244,7 @@ class Painter extends Window
       tools[3].setColor(255,0);
       eraseing=false;
       tools[4].setColor(255,170);
-    }
+    }*/
     if(tools[4].isMouseOver()&&brushType!=3)
     {
       if(eraseing)
