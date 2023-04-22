@@ -1,6 +1,6 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car;
 PImage[] icons;
 String timerDisplay,email="";
 PImage canvas=createImage(1518,761,RGB);
@@ -70,6 +70,10 @@ void setup(){
   eraserICO=loadImage("data/eraser.png");
   isThisHelping=loadImage("data/is_this_helping.png");
   beesStuff=loadImage("data/honey_comb.png");
+  catLady=loadImage("data/cat_lady.jpg");
+  catLady.resize(260,150);
+  apple=loadImage("data/apple.png");
+  car=loadImage("data/car.png");
   for(int i=0;i<103;i++)
   {
     if(i<9)
@@ -111,7 +115,7 @@ void setup(){
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
   websightLink=new Button(this,760,800,400,100);
-  emailEnter=new Button(this,1150,550,750,75,"example@email.com",255,170);
+  emailEnter=new Button(this,1150,550,750,75,"example@example.com",255,170);
   
   icons = new PImage[3];
   
@@ -148,12 +152,12 @@ void setup(){
   
   popups[0]=new Popup(this,0,550,350,"Test?",isThisHelping,"This is a test.","Is this helping?");
   popups[1]=new Popup(this,1,300,300,"Bee Movie",beesStuff,"According to all known","laws of aviation,","there is no way a bee","should be able to fly.");
-  popups[2]=new Popup(this,2,400,500,"Warranty?","Hello, I am contacting","you about your car's","extended warranty");
+  popups[2]=new Popup(this,2,400,500,"Warranty?",car,"Hello, I am contacting","you about your car's","extended warranty");
   popups[3]=new Popup(this,3,800,200,"Rick Roll","Get Rick Rolled","LOL :P");
-  popups[4]=new Popup(this,4,900,300,"Dare","I dare you, to","hold your toungue ","and say: apple");
+  popups[4]=new Popup(this,4,1000,300,"Dare",apple,"I dare you, to","hold your toungue ","and say: apple");
   popups[5]=new Popup(this,5,432,600,"Rice","I want to fill a","baloon with rice");
-  popups[6]=new Popup(this,6,300,300,"Seen my cat?","Have you seen","My cat?");
-  popups[7]=new Popup(this,7,300,300,"test","this is a test");
+  popups[6]=new Popup(this,6,1300,600,"Seen my cat?",catLady,"Have you seen","My cat?");
+  popups[7]=new Popup(this,7,1200,200,"Knock, Knock?","Knock, Knock.","Who's there?","Kanga     Kanga who?","No silly it's kangaroo");
   popups[8]=new Popup(this,8,300,300,"test","this is a test");
   //test = 
   desktopImage=loadImage("ADHDOS_desktop_rev2.png");
@@ -576,8 +580,8 @@ void stateCheck(int processType){//1=boring,10=fun
   //println(randomNumber);
   if(randomNumber<chance)
   {
-    int popDraw=(int)random(0,6);
-    //int popDraw=5;
+    int popDraw=(int)random(0,8);
+    //int popDraw=7;
     //println("pop up spawned");
     popupDraw[popDraw]=true;
   }
@@ -596,7 +600,7 @@ void stateCheck(int processType){//1=boring,10=fun
     timeAware=true;
   
   //overdrive
-  //gives advice that is not nessasarily usefulw
+  //gives advice that is not nessasarily useful
 }
 
 boolean isWindowAllreadyOpen(int PID){
