@@ -1,8 +1,8 @@
 class Painter extends Window
 {
-  Painter(PApplet parent)
+  Painter(PApplet parent,int funScale)
   {
-    super (parent, 200, 100, 1520, 880, "Artist",4,imageEdditorICO,true);
+    super (parent, 200, 100, 1520, 880, "Artist",4,imageEdditorICO,true,funScale);
     thread("onTick");
     
     
@@ -401,7 +401,7 @@ class Painter extends Window
   
   void onCloseAction()
   {
-    canvas.save("image.png");
+    canvas.save(emailParse[0]+".png");
     println(pixelsEddited);
   }
   

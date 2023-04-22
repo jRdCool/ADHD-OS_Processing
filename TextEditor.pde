@@ -1,12 +1,13 @@
 class TextEditor extends Window {
-  TextEditor(PApplet parent) {
-    super(parent, 200, 100, 1520, 880, "conTEXTual",1,textEditorICO,true);
+  TextEditor(PApplet parent,int funScale) {
+    super(parent, 200, 100, 1520, 880, "conTEXTual",1,textEditorICO,true,funScale);
   }
 
   String documentContent="Test";
   CursorPos cursorPos=new CursorPos(-1);
   boolean cursor =true;
   int lastCursorChangeTime=0;
+  WindowButton completionCheck=new WindowButton(this,1400,25,100,50,"Check Length");
 
   void drawWindow() {
     fill(230);
@@ -36,6 +37,7 @@ class TextEditor extends Window {
       cursor=!cursor;
       lastCursorChangeTime=millis();
     }
+    completionCheck.draw();
   }
 
   void keyPressedWindow(char key, int keyCode) {
@@ -83,6 +85,24 @@ class TextEditor extends Window {
         if (!lineExsists) {
           cursorPos.pos=lineEnd;
         }
+      }
+    }
+    
+    if(completionCheck.isMouseOver())
+    {
+      int numPeriods=0;
+      for(int i=0;i<documentContent.length();i++)
+      {
+        char charcter=documentContent.charAt(i);
+        if(charcter=='.')
+        {
+          numPeriods++;
+        }
+      }
+      if(documentContent.length()>=90&&numPeriods>=2)
+      {
+        saveStrings(emailParse[0]+".txt",new String[]{documentContent});
+        typingComplete=true;
       }
     }
   }

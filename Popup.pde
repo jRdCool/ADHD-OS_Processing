@@ -80,6 +80,7 @@ class Popup extends Window{
   
   void drawWindow()
   {
+    textSize(30);
     textAlign(LEFT,CENTER);
     if(image != null)
     {

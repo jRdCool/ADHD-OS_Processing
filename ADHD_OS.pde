@@ -1,8 +1,8 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false;
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff;
 PImage[] icons;
-String timerDisplay;
+String timerDisplay,email="";
 PImage canvas=createImage(1518,761,RGB);
 PImage[] rickRoll=new PImage[103];
 
@@ -11,7 +11,6 @@ boolean[] popupDraw=new boolean[70];;
 int iconSize = 75;
 int iconSpaceing=iconSize+20;
 
-
 int[] iconRows,iconColums,taskbarSlots;
 int[][] icoIDstorage;
 
@@ -19,7 +18,7 @@ int taskbarVPos=1005,numTaskbarSlots=10,taskbarHPos=300;
 int writingFun;
 int pixelsEddited=0;
 
-Button start,websightLink;
+Button start,websightLink,emailEnter;
 
 Popup failedToLoad;
 ArrayList<Window> windows=new ArrayList<>();
@@ -28,6 +27,11 @@ Popup[] sugestions=new Popup[20];
 Button[][] desktopIcons=new Button[7][7];
 Button[] taskbarButtons=new Button[numTaskbarSlots];
 Taskbar taskbar;
+Button[] AMScale=new Button[10],WGScale=new Button[10];
+int scalex=210,AMSy=475,WGSy=670,scaleButtonSize=70;
+int AMS=5,WGS=5;
+CursorPos emailCursor=new CursorPos(-1);
+String[] emailParse;
 
 
 
@@ -83,6 +87,19 @@ void setup(){
     //rickRoll[i].resize(260,150);
   }
   
+  for(int i=0;i<10;i++)
+  {
+    if(i!=4)
+    {
+      AMScale[i]=new Button(this,scalex+((scaleButtonSize+6)*i),AMSy,scaleButtonSize,scaleButtonSize,i+1+"",230,170);
+      WGScale[i]=new Button(this,scalex+((scaleButtonSize+6)*i),WGSy,scaleButtonSize,scaleButtonSize,i+1+"",230,170);
+    }
+    else
+    {
+      AMScale[i]=new Button(this,scalex+((scaleButtonSize+6)*i),AMSy,scaleButtonSize,scaleButtonSize,i+1+"",230,0);
+      WGScale[i]=new Button(this,scalex+((scaleButtonSize+6)*i),WGSy,scaleButtonSize,scaleButtonSize,i+1+"",230,0);
+    }
+  }
   
   canvas.loadPixels();
   for(int i=0;i<canvas.pixels.length;i++)
@@ -94,6 +111,7 @@ void setup(){
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
   websightLink=new Button(this,760,800,400,100);
+  emailEnter=new Button(this,1150,550,750,75,"example@email.com",255,170);
   
   icons = new PImage[3];
   
@@ -128,13 +146,13 @@ void setup(){
   
   failedToLoad=new Popup(this,9,600,200,"Program Failed to load", "The program failed to load", "This is most likly because it is fake");
   
-  popups[0]=new Popup(this,0,600,300,"test",isThisHelping,"this is a test","is this helping?");
-  popups[1]=new Popup(this,1,300,300,"test",beesStuff,"According to all known laws of aviation,","there is no way a bee","should be able to fly.");
-  popups[2]=new Popup(this,2,400,500,"test","this is a test");
+  popups[0]=new Popup(this,0,550,350,"Test?",isThisHelping,"This is a test.","Is this helping?");
+  popups[1]=new Popup(this,1,300,300,"Bee Movie",beesStuff,"According to all known","laws of aviation,","there is no way a bee","should be able to fly.");
+  popups[2]=new Popup(this,2,400,500,"Warranty?","Hello, I am contacting","you about your car's","extended warranty");
   popups[3]=new Popup(this,3,800,200,"Rick Roll","Get Rick Rolled","LOL :P");
-  popups[4]=new Popup(this,4,300,300,"test","this is a test");
-  popups[5]=new Popup(this,5,300,300,"test","this is a test");
-  popups[6]=new Popup(this,6,300,300,"test","this is a test");
+  popups[4]=new Popup(this,4,900,300,"Dare","I dare you, to","hold your toungue ","and say: apple");
+  popups[5]=new Popup(this,5,432,600,"Rice","I want to fill a","baloon with rice");
+  popups[6]=new Popup(this,6,300,300,"Seen my cat?","Have you seen","My cat?");
   popups[7]=new Popup(this,7,300,300,"test","this is a test");
   popups[8]=new Popup(this,8,300,300,"test","this is a test");
   //test = 
@@ -176,18 +194,32 @@ void draw(){
   if(startScreen)
   {
     textAlign(CENTER,CENTER);
-    textSize(75);
+    textSize(73);
     text("You will have about "+timerMin+" min to complete a series of tasks.",960,100);
     text("During that time you will experience a few 'Interesting' things.",960,200);
     text("Do your best and have fun.",960,300);
     
-    textSize(30);
+    textSize(40);
     text("What do find more fun?",580,400);
-    text("Art",130,500);
+    text("Writing",130,500);
     text("Math",1060,500);
-    text("Writing",130,700);
+    
+    text("Art",130,700);
     text("Gaming",1060,700);
     
+    noStroke();
+    for(int i=0;i<10;i++)
+    {
+      AMScale[i].draw();
+      WGScale[i].draw();
+    }
+    if(!email.equals("") || enteringEmail)
+    {
+      
+      emailEnter.setText(email);
+    }
+    
+    emailEnter.draw();
     start.draw();
   }
   
@@ -304,6 +336,26 @@ void draw(){
   {
     if(timerMin==0&&timerSec==0)
     {
+      if(desktop)
+      {
+        if(new File(sketchPath()+"/email_list.txt").exists())
+        {
+          println("file Found");
+          String[] list = loadStrings("email_list.txt");
+          String[] appendedList=new String[list.length+1];
+          for(int i=0;i<list.length;i++)
+          {
+            appendedList[i]=list[i];
+          }
+          appendedList[list.length]=email;
+          saveStrings("email_list.txt",appendedList);
+        }
+        else
+        {
+          println("file NOT Found");
+          saveStrings("email_list.txt",new String[]{email});
+        }
+      }
       credits=true;
       desktop=false;
       counterStarted=false;
@@ -319,17 +371,15 @@ void draw(){
     }
     if(timerSec%5==0)
     {
-      int state=10;
-      for(int i=0;i<taskbar.slotsUsed();i++)
-      {
-        if(taskbar.getWindow(i).readFunScale()<state)
-        {
-          state=taskbar.getWindow(i).readFunScale();
-        }
-      }
+      int state;
       if(taskbar.slotsUsed()==0)
       {
         state=5;
+      }
+      
+      else
+      {
+        state=taskbar.getWindow(0).readFunScale();
       }
       stateCheck(state);
     }
@@ -341,6 +391,9 @@ void draw(){
 
 //====================================================Mouse Clicked====================================================//
 void mouseClicked(){
+  //println(mouseX+" "+mouseY);
+  
+  //---------------------------Desktop---------------------------------//
   if(desktop)
   {
     for(int i=0;i<windows.size();i++){
@@ -375,30 +428,78 @@ void mouseClicked(){
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
         //println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
-        Window texteditor = new TextEditor(this);
+        
+        Window texteditor = new TextEditor(this,abs(WGS-11));
+        //println(abs(AMS-11)+" Text Edditor Spawned");
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
       if(desktopIcons[0][3].isMouseOver()&&!isWindowAllreadyOpen(3))
       {
-        Window mathProblems=new Math(this);
+        Window mathProblems=new Math(this,AMS);
+        //println(AMS+" Mo-Problems Spawned");
         int slot=taskbar.addProcess(mathProblems.processID(),mathProblems);
         windows.add(mathProblems);
       }
       if(desktopIcons[1][0].isMouseOver()&&!isWindowAllreadyOpen(4))
       {
-        Window imageditor=new Painter(this);
+        Window imageditor=new Painter(this,abs(AMS-11));
+        //println(abs(WGS-11)+" Painter Spawned");
         int slot=taskbar.addProcess(imageditor.processID(),imageditor);
         windows.add(imageditor);
       }
     } 
   }
-  if(startScreen&&start.isMouseOver())
+  
+  //---------------------------------Start Screen------------------------------------//
+  if(startScreen)
   {
-    desktop=true;
-    startScreen=false;
-    counterStarted=true;
-    //test.setFunScale();
+    if(start.isMouseOver()&&!email.equals(""))
+    {
+      desktop=true;
+      startScreen=false;
+      counterStarted=true;
+      emailParse=email.split("@");
+      //test.setFunScale();
+    }
+    if(emailEnter.isMouseOver())
+    {
+      emailEnter.setColor(255,0);
+      enteringEmail=true;
+    }
+    else
+    {
+      emailEnter.setColor(255,170);
+      enteringEmail=false;
+    }
+    for(int i=0;i<10;i++)
+    {
+      if(AMScale[i].isMouseOver())
+      {
+        //println(i);
+        AMScale[i].setColor(230,0);
+        AMS=i+1;
+        for(int j=0;j<10;j++)
+        {
+          if(j!=i)
+          {
+            AMScale[j].setColor(230,170);
+          }
+        }
+      }
+      if(WGScale[i].isMouseOver())
+      {
+        WGScale[i].setColor(230,0);
+        WGS=i+1;
+        for(int j=0;j<10;j++)
+        {
+          if(j!=i)
+          {
+            WGScale[j].setColor(230,170);
+          }
+        }
+      }
+    }
   }
   
   if(websightLink.isMouseOver()&&credits)
@@ -415,7 +516,10 @@ void keyPressed(){
     for(int i=0;i<windows.size();i++){
       windows.get(i).keyPressed();
     }
-    
+    if(startScreen&&enteringEmail)
+    {
+      email=processKeyboardInput(email,key,keyCode,5,emailCursor);
+    }
 }
 
 //====================================================Mouse Pressed====================================================//
@@ -472,8 +576,8 @@ void stateCheck(int processType){//1=boring,10=fun
   //println(randomNumber);
   if(randomNumber<chance)
   {
-    int popDraw=(int)random(0,4);
-    //int popDraw=3;
+    int popDraw=(int)random(0,6);
+    //int popDraw=5;
     //println("pop up spawned");
     popupDraw[popDraw]=true;
   }
@@ -492,10 +596,7 @@ void stateCheck(int processType){//1=boring,10=fun
     timeAware=true;
   
   //overdrive
-  //gives advice that is not nessasarily useful
-  
-  
-  
+  //gives advice that is not nessasarily usefulw
 }
 
 boolean isWindowAllreadyOpen(int PID){

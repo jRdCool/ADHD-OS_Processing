@@ -26,6 +26,22 @@ class Window{
     this.miniDraw=miniDraw;
   }
   
+  public Window(PApplet parent,float x,float y,float length,float height,String title,int processID,PImage icon,boolean miniDraw,int funScale){
+    this.x=x;
+    this.y=y;
+    this.length=length;
+    this.height=height;
+    this.title=title;
+    titleBar=new Button(parent,x+1,y+1,length-2,18,title,240,240).setStrokeWeight(0);
+    this.parent=parent;
+    closeButton=new Button(parent,x+length-22,y+1,22,18,"X",#FF0000,240).setStrokeWeight(0).setTextColor(255);
+    minimiseButton=new Button(parent,x+length-closeButton.lengthX-22,y+1,22,18,"-",230,220).setStrokeWeight(0);
+    this.PID=processID;
+    this.icon=icon;
+    this.miniDraw=miniDraw;
+    this.funScale=funScale;
+  }
+  
   final void draw(){
     if(!isMinimized){
       fill(240);
