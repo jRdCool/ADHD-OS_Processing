@@ -66,6 +66,13 @@ public class skiny_mann extends Window {
   }
 
   void mouseClickedInWindow(int x, int y) {
+    if(x>=550 && x<= 550+200 && y>=450 && y<= 450+40){
+      levelComplete=true;//mark game as complete
+      
+      mouseX=(int)closeButton.x+5;//close this window the sneeky way
+      mouseY=(int)closeButton.y+5;
+      mouseClicked(taskbar);
+    }
   }
 
   void keyPressedWindow(char key, int keyCode) {
