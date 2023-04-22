@@ -1,6 +1,6 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
 boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false,gamePhysicsLoop;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car,skinnyMannIcon;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car,skinnyMannIcon,minecrftIcon;
 PImage[] icons;
 String timerDisplay,email="";
 PImage canvas=createImage(1518,761,RGB);
@@ -77,6 +77,8 @@ void setup(){
   catLady.resize(260,150);
   apple=loadImage("data/apple.png");
   car=loadImage("data/car.png");
+  minecrftIcon=loadImage("icons/minecraft_icon.png");
+  minecrftIcon.resize(iconSize,iconSize);
   for(int i=0;i<103;i++)
   {
     if(i<9)
@@ -151,7 +153,7 @@ void setup(){
     }
   }
   
-  failedToLoad=new Popup(this,9,600,200,"Program Failed to load", "The program failed to load", "This is most likly because it is fake");
+  failedToLoad=new Popup(this,9,600,200,"Program Failed to load", "The program","failed to load!!!", "This is most likly","because it is fake.");
   
   popups[0]=new Popup(this,0,550,350,"Test?",isThisHelping,"This is a test.","Is this helping?");
   popups[1]=new Popup(this,1,300,300,"Bee Movie",beesStuff,"According to all known","laws of aviation,","there is no way a bee","should be able to fly.");
@@ -306,12 +308,12 @@ void draw(){
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
     image(skinnyMannIcon,iconColums[0],iconRows[2]);
     text("skinny mann", iconColums[0]+(iconSize/2),iconRows[2+1]-10);
-
-
     image(mathProblemsICO,iconColums[0],iconRows[3]);
     text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[3+1]-10);
     image(imageEdditorICO,iconColums[1],iconRows[0]);
     text("Artist",iconColums[1]+(iconSize/2),iconRows[0+1]-10);
+    image(minecrftIcon,iconColums[1],iconRows[1]);
+    text("MineClone",iconColums[1]+(iconSize/2),iconRows[1+1]-10);
     
     for(int i=0;i<windows.size();i++){
       windows.get(i).draw();
@@ -433,7 +435,7 @@ void mouseClicked(){
     failedToLoad.mouseClicked(taskbar);
 
     if(!onWindow){
-      if(desktopIcons[0][0].isMouseOver()&&!isWindowAllreadyOpen(1))
+      if(desktopIcons[0][0].isMouseOver()||desktopIcons[1][1].isMouseOver())
       {
         popupDraw[9]=true;
       }
@@ -441,7 +443,7 @@ void mouseClicked(){
       {
         //println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
 
-        Window texteditor = new TextEditor(this,abs(WGS-11));
+        Window texteditor = new TextEditor(this,abs(AMS-11));
         //println(abs(AMS-11)+" Text Edditor Spawned");
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
@@ -449,7 +451,7 @@ void mouseClicked(){
 
 
       if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
-        Window game = new skiny_mann(this);
+        Window game = new skiny_mann(this,abs(WGS));
         int slot=taskbar.addProcess(game.processID(),game);
         windows.add(game);
       }
@@ -465,7 +467,7 @@ void mouseClicked(){
       }
       if(desktopIcons[1][0].isMouseOver()&&!isWindowAllreadyOpen(4))
       {
-        Window imageditor=new Painter(this,abs(AMS-11));
+        Window imageditor=new Painter(this,abs(WGS-11));
         //println(abs(WGS-11)+" Painter Spawned");
         int slot=taskbar.addProcess(imageditor.processID(),imageditor);
         windows.add(imageditor);

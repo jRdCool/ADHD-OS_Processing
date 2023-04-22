@@ -1,6 +1,6 @@
 public class skiny_mann extends Window {
-  public skiny_mann(PApplet parent) {
-    super(parent, 100, 100, 1280, 720, "Skinny Mann", 2, skinnyMannIcon);
+  public skiny_mann(PApplet parent,int funScale) {
+    super(parent, 100, 100, 1280, 720, "Skinny Mann", 2, skinnyMannIcon,true,funScale);
     Level.source=this;
     Stage.source=this;
     StageComponent.source=this;
