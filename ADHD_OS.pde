@@ -1,5 +1,5 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false,gamePhysicsLoop;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false,gamePhysicsLoop,tasksComplete;
 PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car,skinnyMannIcon,minecrftIcon;
 PImage[] icons;
 String timerDisplay,email="";
@@ -48,23 +48,23 @@ void settings(){
 
 void setup(){
   frameRate(60);
-  ico0=loadImage("icons/icon0.png");
+  ico0=loadImage("data/icons/icon0.png");
   ico0.resize(iconSize,iconSize);
-  ico1=loadImage("icons/icon1.png");
+  ico1=loadImage("data/icons/icon1.png");
   ico1.resize(iconSize,iconSize);
-  ico2=loadImage("icons/icon2.png");
+  ico2=loadImage("data/icons/icon2.png");
   ico2.resize(iconSize,iconSize);
 
-  recycleBin=loadImage("icons/recycle.jpeg");
+  recycleBin=loadImage("data/icons/recycle.jpeg");
   recycleBin.resize(iconSize,iconSize);
-  textEditorICO=loadImage("icons/text_edditor.png");
+  textEditorICO=loadImage("data/icons/text_edditor.png");
   textEditorICO.resize(iconSize,iconSize);
-  taskListBackground=loadImage("taskListBackground.png");
+  taskListBackground=loadImage("data/taskListBackground.png");
   skinnyMannIcon=loadImage("data/assets/skinny mann face.PNG");
   skinnyMannIcon.resize(iconSize,iconSize);
-  mathProblemsICO=loadImage("icons/math_problems.png");
+  mathProblemsICO=loadImage("data/icons/math_problems.png");
   mathProblemsICO.resize(iconSize,iconSize);
-  imageEdditorICO=loadImage("icons/image_edditor.jpg");
+  imageEdditorICO=loadImage("data/icons/image_edditor.jpg");
   imageEdditorICO.resize(iconSize,iconSize);
   smallBrush=loadImage("data/small_brush.png");
   mediumBrush=loadImage("data/medium_brush.png");
@@ -77,7 +77,7 @@ void setup(){
   catLady.resize(260,150);
   apple=loadImage("data/apple.png");
   car=loadImage("data/car.png");
-  minecrftIcon=loadImage("icons/minecraft_icon.png");
+  minecrftIcon=loadImage("data/icons/minecraft_icon.png");
   minecrftIcon.resize(iconSize,iconSize);
   for(int i=0;i<103;i++)
   {
@@ -163,9 +163,9 @@ void setup(){
   popups[5]=new Popup(this,5,432,600,"Rice","I want to fill a","baloon with rice");
   popups[6]=new Popup(this,6,1300,600,"Seen my cat?",catLady,"Have you seen","My cat?");
   popups[7]=new Popup(this,7,1200,200,"Knock, Knock?","Knock, Knock.","Who's there?","Kanga     Kanga who?","No silly it's kangaroo");
-  popups[8]=new Popup(this,8,300,300,"test","this is a test");
+  popups[8]=new Popup(this,8,300,300,"test","The power of christ","compells you");
   //test =
-  desktopImage=loadImage("ADHDOS_desktop_rev2.png");
+  desktopImage=loadImage("data/ADHDOS_desktop_rev2.png");
   desktopImage.resize(width,height);
 }
 
@@ -347,7 +347,7 @@ void draw(){
   //text(frame%60,960,590);
   if(frame%60==0&&counterStarted)
   {
-    if(timerMin==0&&timerSec==0)
+    if((timerMin==0&&timerSec==0)||tasksComplete)
     {
       if(desktop)
       {
@@ -398,8 +398,7 @@ void draw(){
     }
   }
   
-  
-
+  tasksComplete=(levelComplete&&drawingComplete&&typingComplete&&mathComplete);
   
 }
 
