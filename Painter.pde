@@ -90,7 +90,7 @@ class Painter extends Window
     image(smallBrush,x+toolG1+0*toolSpace,y+toolY);
     image(mediumBrush,x+toolG1+1*toolSpace,y+toolY);
     image(largeBrush,x+toolG1+2*toolSpace,y+toolY);
-    image(fillTool,x+toolG2+3*toolSpace,y+toolY);
+    //image(fillTool,x+toolG2+3*toolSpace,y+toolY);
     image(eraserICO,x+toolG2+4*toolSpace,y+toolY);
     //println(drawing);
     
