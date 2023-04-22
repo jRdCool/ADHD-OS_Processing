@@ -1,6 +1,6 @@
 int ADHDMode=0,timerMin=5,timerSec=00,frame=0;
-boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false;
-PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car;
+boolean introScreen=true,desktop=false,onDesktop=false,textEditor=false,initilizing=true,isFocused=true,timeAware=true,overdrive=false,credits=false,counterStarted=false,startScreen=true,mathComplete=false,typingComplete=false,drawingComplete=false,levelComplete=false,enteringEmail=false,gamePhysicsLoop;
+PImage desktopImage,ico0,ico1,ico2,recycleBin,textEditorICO,taskListBackground,mathProblemsICO,imageEdditorICO,smallBrush,mediumBrush,largeBrush,eraserICO,fillTool,isThisHelping,beesStuff,catLady,apple,car,skinnyMannIcon;
 PImage[] icons;
 String timerDisplay,email="";
 PImage canvas=createImage(1518,761,RGB);
@@ -54,11 +54,14 @@ void setup(){
   ico1.resize(iconSize,iconSize);
   ico2=loadImage("icons/icon2.png");
   ico2.resize(iconSize,iconSize);
+
   recycleBin=loadImage("icons/recycle.jpeg");
   recycleBin.resize(iconSize,iconSize);
   textEditorICO=loadImage("icons/text_edditor.png");
   textEditorICO.resize(iconSize,iconSize);
   taskListBackground=loadImage("taskListBackground.png");
+  skinnyMannIcon=loadImage("data/assets/skinny mann face.PNG");
+  skinnyMannIcon.resize(iconSize,iconSize);
   mathProblemsICO=loadImage("icons/math_problems.png");
   mathProblemsICO.resize(iconSize,iconSize);
   imageEdditorICO=loadImage("icons/image_edditor.jpg");
@@ -90,7 +93,7 @@ void setup(){
     }
     //rickRoll[i].resize(260,150);
   }
-  
+
   for(int i=0;i<10;i++)
   {
     if(i!=4)
@@ -104,19 +107,19 @@ void setup(){
       WGScale[i]=new Button(this,scalex+((scaleButtonSize+6)*i),WGSy,scaleButtonSize,scaleButtonSize,i+1+"",230,0);
     }
   }
-  
+
   canvas.loadPixels();
   for(int i=0;i<canvas.pixels.length;i++)
   {
     canvas.pixels[i]= #FFFFFF;
   }
   canvas.updatePixels();
-  
+
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
   websightLink=new Button(this,760,800,400,100);
   emailEnter=new Button(this,1150,550,750,75,"example@example.com",255,170);
-  
+
   icons = new PImage[3];
   
   icons[0]=ico0;
@@ -159,7 +162,7 @@ void setup(){
   popups[6]=new Popup(this,6,1300,600,"Seen my cat?",catLady,"Have you seen","My cat?");
   popups[7]=new Popup(this,7,1200,200,"Knock, Knock?","Knock, Knock.","Who's there?","Kanga     Kanga who?","No silly it's kangaroo");
   popups[8]=new Popup(this,8,300,300,"test","this is a test");
-  //test = 
+  //test =
   desktopImage=loadImage("ADHDOS_desktop_rev2.png");
   desktopImage.resize(width,height);
 }
@@ -207,7 +210,7 @@ void draw(){
     text("What do find more fun?",580,400);
     text("Writing",130,500);
     text("Math",1060,500);
-    
+
     text("Art",130,700);
     text("Gaming",1060,700);
     
@@ -219,10 +222,10 @@ void draw(){
     }
     if(!email.equals("") || enteringEmail)
     {
-      
+
       emailEnter.setText(email);
     }
-    
+
     emailEnter.draw();
     start.draw();
   }
@@ -284,14 +287,14 @@ void draw(){
     checkBox(1515,100,mathComplete);
     checkBox(1515,143,drawingComplete);
     checkBox(1515,177,levelComplete);
+
+
     
     
     
     
-    
-    
-    
-    
+
+
     //----------icons and lables------------//
     fill(0);
     stroke(0);
@@ -301,7 +304,10 @@ void draw(){
     text("Recycleing Bin",iconColums[0]+(iconSize/2),iconRows[0+1]-10);
     image(textEditorICO,iconColums[0],iconRows[1]);
     text("conTEXTual",iconColums[0]+(iconSize/2),iconRows[1+1]-10);
-    
+    image(skinnyMannIcon,iconColums[0],iconRows[2]);
+    text("skinny mann", iconColums[0]+(iconSize/2),iconRows[2+1]-10);
+
+
     image(mathProblemsICO,iconColums[0],iconRows[3]);
     text("Mo-Problems",iconColums[0]+(iconSize/2),iconRows[3+1]-10);
     image(imageEdditorICO,iconColums[1],iconRows[0]);
@@ -380,7 +386,7 @@ void draw(){
       {
         state=5;
       }
-      
+
       else
       {
         state=taskbar.getWindow(0).readFunScale();
@@ -390,13 +396,15 @@ void draw(){
   }
   
   
+
+  
 }
 
 
 //====================================================Mouse Clicked====================================================//
 void mouseClicked(){
   //println(mouseX+" "+mouseY);
-  
+
   //---------------------------Desktop---------------------------------//
   if(desktop)
   {
@@ -423,7 +431,7 @@ void mouseClicked(){
       }
     }
     failedToLoad.mouseClicked(taskbar);
-    
+
     if(!onWindow){
       if(desktopIcons[0][0].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
@@ -432,12 +440,22 @@ void mouseClicked(){
       if(desktopIcons[0][1].isMouseOver()&&!isWindowAllreadyOpen(1))
       {
         //println(mouseX+" "+mouseY+" "+desktopIcons[0][1].isMouseOver()+" "+!isWindowAllreadyOpen(1));
-        
+
         Window texteditor = new TextEditor(this,abs(WGS-11));
         //println(abs(AMS-11)+" Text Edditor Spawned");
         int slot=taskbar.addProcess(texteditor.processID(),texteditor);
         windows.add(texteditor);
       }
+
+
+      if(desktopIcons[0][2].isMouseOver()&&!isWindowAllreadyOpen(2)){
+        Window game = new skiny_mann(this);
+        int slot=taskbar.addProcess(game.processID(),game);
+        windows.add(game);
+      }
+
+
+
       if(desktopIcons[0][3].isMouseOver()&&!isWindowAllreadyOpen(3))
       {
         Window mathProblems=new Math(this,AMS);
@@ -452,9 +470,9 @@ void mouseClicked(){
         int slot=taskbar.addProcess(imageditor.processID(),imageditor);
         windows.add(imageditor);
       }
-    } 
+    }
   }
-  
+
   //---------------------------------Start Screen------------------------------------//
   if(startScreen)
   {
@@ -524,6 +542,13 @@ void keyPressed(){
     {
       email=processKeyboardInput(email,key,keyCode,5,emailCursor);
     }
+}
+
+void keyReleased(){
+    for(int i=0;i<windows.size();i++){
+      windows.get(i).keyReleased();
+    }
+
 }
 
 //====================================================Mouse Pressed====================================================//
@@ -612,6 +637,13 @@ boolean isWindowAllreadyOpen(int PID){
   return false;
 }
 
+void gamePhysicsThread(){
+  skiny_mann game=(skiny_mann)taskbar.getWindow(taskbar.slotLookUp(2));
+  while(gamePhysicsLoop){
+    game.physicsThread();
+  }
+}
+
 void checkBox(float x, float y, boolean mark)
 {
   stroke(0);
@@ -626,7 +658,7 @@ void checkBox(float x, float y, boolean mark)
     line(x,y+2,x+4,y+6);
     line(x+4,y+6,x+11,y-4);
   }
-  
+
 }
 
 public void onTick()
