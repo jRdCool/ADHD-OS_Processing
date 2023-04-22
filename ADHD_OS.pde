@@ -120,7 +120,7 @@ void setup(){
   taskbar=new Taskbar(this,numTaskbarSlots,taskbarHPos,taskbarVPos,iconSpaceing);
   start=new Button(this,700,950,500,100,"start",#22FF22,0);
   websightLink=new Button(this,760,800,400,100);
-  emailEnter=new Button(this,1150,550,750,75,"example@example.com",255,170);
+  emailEnter=new Button(this,1150,550,750,75,"example@example.com",255,170).setTextColor(130);
 
   icons = new PImage[3];
   
@@ -202,6 +202,7 @@ void draw(){
   //----------------------------Start Screen----------------------------//
   if(startScreen)
   {
+    background(#CBCBCB);
     textAlign(CENTER,CENTER);
     textSize(73);
     text("You will have about "+timerMin+" min to complete a series of tasks.",960,100);
@@ -224,8 +225,8 @@ void draw(){
     }
     if(!email.equals("") || enteringEmail)
     {
-
       emailEnter.setText(email);
+      emailEnter.setTextColor(0);
     }
 
     emailEnter.draw();
@@ -391,7 +392,7 @@ void draw(){
 
       else
       {
-        state=taskbar.getWindow(0).readFunScale();
+        state=windows.get(windows.size()-1).readFunScale();
       }
       stateCheck(state);
     }
