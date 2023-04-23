@@ -334,7 +334,7 @@ void draw(){
       }
     }
   }
-  if(pixelsEddited>1500)
+  if(pixelsEddited>1000)
   {
     drawingComplete=true;
   }
